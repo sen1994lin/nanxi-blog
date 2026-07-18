@@ -1,8 +1,6 @@
 backend:
-  name: github
-  repo: sen1994lin/nanxi-blog
+  name: git-gateway
   branch: main
-  base_url: https://decap-cms-oauth-pi.vercel.app
 media_folder: "images"
 public_folder: "images"
 
