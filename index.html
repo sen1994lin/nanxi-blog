@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>南曦笔话</title>
+<meta name="description" content="南曦的个人博客：技术笔记、生活随笔与随想。">
+<!-- SEO / 分享卡片 -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="南曦笔话">
+<meta property="og:description" content="技术笔记、生活随笔与随想。">
+<meta property="og:image" content="">
+<meta name="twitter:card" content="summary_large_image">
+<!-- Markdown 渲染 -->
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<!-- 代码高亮 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/github.min.css">
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+<!-- 不蒜子 阅读量统计（免费） -->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<style>
+  :root{
+    --bg:#fbf6ef; --card:#ffffff; --card2:#fff8f1;
+    --ink:#3b3530; --muted:#9a8f86; --line:#efe6db;
+    --accent:#e58b6d; --accent2:#e9b384; --soft:#f6ece3;
+    --shadow:0 10px 30px rgba(180,140,110,.12);
+    --code-bg:#f6f0e8; --tag-bg:#f4e7dc; --tag-ink:#b5704f;
+    --radius:18px;
+  }
+  body.dark{
+    --bg:#1c1a18; --card:#26221f; --card2:#2c2825;
+    --ink:#ece6e0; --muted:#a79b90; --line:#3a342f;
+    --accent:#e58b6d; --accent2:#e9b384; --soft:#2c2622;
+    --shadow:0 10px 30px rgba(0,0,0,.45);
+    --code-bg:#211d1a; --tag-bg:#3a2f28; --tag-ink:#e9b384;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.75;-webkit-font-smoothing:antialiased;
+    overflow-x:hidden;transition:background .3s,color .3s}
+  a{color:inherit;text-decoration:none}
+  button{font-family:inherit}
+
+  /* 顶部导航 */
+  header{position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--bg) 88%,transparent);
+    backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;gap:14px;max-width:1040px;margin:0 auto;padding:12px 22px}
+  .brand{display:flex;align-items:center;gap:10px;cursor:pointer;flex:0 0 auto;min-width:0}
+  .brand .logo{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent2));
+    color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:19px;flex:0 0 auto}
+  .brand .name{font-weight:700;font-size:19px;white-space:nowrap}
+  .nav-right{margin-left:auto;display:flex;align-items:center;gap:8px}
+  .search-box{display:flex;align-items:center;background:var(--soft);border:1px solid var(--line);
+    border-radius:999px;padding:6px 12px;gap:6px}
+  .search-box input{border:none;background:transparent;outline:none;color:var(--ink);font-size:14px;width:130px}
+  .search-box input::placeholder{color:var(--muted)}
+  .icon-btn{border:none;background:var(--soft);width:38px;height:38px;border-radius:50%;cursor:pointer;
+    font-size:17px;color:var(--ink);transition:.2s;display:flex;align-items:center;justify-content:center}
+  .icon-btn:hover{background:var(--accent);color:#fff}
+  .topmenu{display:flex;gap:4px;flex-wrap:wrap}
+  .topmenu>a,.topmenu>div{position:relative}
+  .topmenu button{border:none;background:transparent;cursor:pointer;font-size:15px;color:var(--muted);
+    padding:8px 13px;border-radius:999px;transition:.2s;white-space:nowrap}
+  .topmenu button:hover{color:var(--ink);background:rgba(229,139,109,.12)}
+  .topmenu button.active{color:#fff;background:var(--accent)}
+  .dropdown{position:absolute;top:100%;left:0;min-width:160px;background:var(--card);border:1px solid var(--line);
+    border-radius:14px;box-shadow:var(--shadow);padding:6px;display:none;z-index:50}
+  .topmenu>div:hover>.dropdown{display:block}
+  .dropdown a{display:block;padding:9px 12px;border-radius:10px;font-size:14px;color:var(--ink);white-space:nowrap}
+  .dropdown a:hover{background:var(--soft)}
+  .dropdown .sub{position:relative}
+  .dropdown .sub>.dropdown{left:100%;top:0}
+  .dropdown .sub:hover>.dropdown{display:block}
+  .hamburger{display:none}
+
+  /* 抽屉（移动端） */
+  .drawer-mask{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:60;display:none}
+  .drawer{position:fixed;top:0;right:0;height:100%;width:78%;max-width:320px;background:var(--card);
+    z-index:61;transform:translateX(100%);transition:transform .28s;padding:22px;overflow-y:auto;box-shadow:var(--shadow)}
+  .drawer.open{transform:translateX(0)}
+  .drawer .close{position:absolute;top:14px;right:16px;font-size:22px;border:none;background:transparent;cursor:pointer;color:var(--muted)}
+  .drawer .d-item{display:block;padding:13px 8px;border-bottom:1px solid var(--line);font-size:16px;cursor:pointer}
+  .drawer .d-item.has-children{font-weight:600}
+  .drawer .d-sub{padding-left:16px}
+  .drawer .d-tools{margin-top:18px;display:flex;gap:10px;align-items:center}
+  .drawer .d-search{display:flex;align-items:center;background:var(--soft);border:1px solid var(--line);border-radius:999px;padding:8px 12px;gap:6px;margin-top:14px}
+  .drawer .d-search input{border:none;background:transparent;outline:none;color:var(--ink);font-size:15px;width:100%}
+
+  /* 主区 */
+  main{max-width:1040px;margin:0 auto;padding:0 22px 80px}
+  .hero{text-align:center;padding:56px 0 34px}
+  .hero .deco{font-size:34px}
+  .hero h1{font-size:42px;margin:14px 0 12px;line-height:1.3;font-weight:800}
+  .hero h1 .hl{background:linear-gradient(120deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero p{color:var(--muted);font-size:16px;max-width:560px;margin:0 auto}
+
+  .sec-title{display:flex;align-items:center;gap:10px;margin:34px 0 16px;font-size:22px;font-weight:700}
+  .sec-title .bar{width:5px;height:22px;border-radius:3px;background:linear-gradient(var(--accent),var(--accent2))}
+  .filter-tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+  .filter-tags button{border:1px solid var(--line);background:var(--card);color:var(--muted);border-radius:999px;
+    padding:6px 14px;font-size:13px;cursor:pointer;transition:.2s}
+  .filter-tags button:hover,.filter-tags button.active{color:#fff;background:var(--accent);border-color:var(--accent)}
+
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+  .post-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:24px;
+    box-shadow:var(--shadow);cursor:pointer;transition:.22s;display:flex;flex-direction:column;gap:10px}
+  .post-card:hover{transform:translateY(-4px);border-color:var(--accent)}
+  .post-card .cat{font-size:12px;color:#fff;background:var(--accent);padding:3px 10px;border-radius:999px;align-self:flex-start}
+  .post-card h3{margin:0;font-size:19px;line-height:1.4}
+  .post-card .ex{color:var(--muted);font-size:14px;flex:1}
+  .post-card .m{display:flex;gap:10px;align-items:center;color:var(--muted);font-size:13px;flex-wrap:wrap}
+  .post-card .tags{display:flex;gap:6px;flex-wrap:wrap}
+  .chip{font-size:12px;color:var(--tag-ink);background:var(--tag-bg);padding:2px 9px;border-radius:999px;cursor:pointer}
+  .chip:hover{filter:brightness(.96)}
+
+  .article{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:34px;box-shadow:var(--shadow)}
+  .article .back{border:none;background:var(--soft);color:var(--ink);border-radius:999px;padding:7px 15px;cursor:pointer;font-size:14px;margin-bottom:16px}
+  .article .back:hover{background:var(--accent);color:#fff}
+  .cat-badge{font-size:12px;color:#fff;background:var(--accent);padding:3px 11px;border-radius:999px}
+  .article h1{font-size:32px;margin:12px 0 8px;line-height:1.35}
+  .meta{color:var(--muted);font-size:14px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .dot{width:4px;height:4px;border-radius:50%;background:var(--muted)}
+  .article-body{margin-top:22px;font-size:16.5px}
+  .article-body h2{margin-top:30px;font-size:24px;border-left:4px solid var(--accent);padding-left:12px}
+  .article-body h3{margin-top:22px;font-size:19px;color:var(--accent2)}
+  .article-body img{max-width:100%;border-radius:12px;margin:10px 0}
+  .article-body pre{background:var(--code-bg);border-radius:12px;padding:16px;overflow:auto;font-size:14px}
+  .article-body code{font-family:"SFMono-Regular",Consolas,monospace;background:var(--code-bg);padding:2px 6px;border-radius:6px;font-size:14px}
+  .article-body pre code{background:none;padding:0}
+  .article-body blockquote{border-left:4px solid var(--accent);margin:14px 0;padding:6px 16px;color:var(--muted);background:var(--soft);border-radius:0 10px 10px 0}
+  .article-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:22px}
+  .post-tools{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+  .tool-btn{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:8px 15px;cursor:pointer;font-size:14px;transition:.2s}
+  .tool-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+  /* TOC */
+  .toc{background:var(--soft);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin-top:20px}
+  .toc .t-title{font-weight:700;margin-bottom:8px;font-size:15px}
+  .toc a{display:block;padding:4px 0;color:var(--muted);font-size:14px}
+  .toc a:hover{color:var(--accent)}
+  .toc a.lv3{padding-left:16px;font-size:13px}
+
+  /* 相关文章 */
+  .related{margin-top:30px}
+  .related .grid{grid-template-columns:repeat(2,1fr)}
+
+  /* 评论 */
+  .comments{margin-top:34px;border-top:1px dashed var(--line);padding-top:22px}
+  .c-title{font-weight:700;font-size:18px;margin-bottom:10px}
+  .c-hint{color:var(--muted);font-size:13.5px;margin-bottom:10px}
+  .notice{background:var(--soft);border:1px solid var(--line);border-radius:12px;padding:16px;color:var(--muted);font-size:14px}
+
+  /* 相册 */
+  .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .gallery .ph{aspect-ratio:1/1;border-radius:14px;overflow:hidden;cursor:pointer;background:var(--soft);
+    display:flex;align-items:center;justify-content:center;font-size:54px;border:1px solid var(--line);transition:.22s}
+  .gallery .ph img{width:100%;height:100%;object-fit:cover}
+  .gallery .ph:hover{transform:scale(1.03)}
+  .lb{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:80;display:none;align-items:center;justify-content:center;flex-direction:column;padding:20px}
+  .lb.open{display:flex}
+  .lb img{max-width:90%;max-height:78vh;border-radius:12px}
+  .lb .cap{color:#fff;margin-top:14px;font-size:15px}
+  .lb .x{position:absolute;top:18px;right:24px;color:#fff;font-size:30px;cursor:pointer}
+
+  /* 关于 / 自媒体 */
+  .about{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:40px;box-shadow:var(--shadow);text-align:center}
+  .about .avatar{width:92px;height:92px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;
+    display:flex;align-items:center;justify-content:center;font-size:40px;margin:0 auto 16px}
+  .about h1{margin:6px 0 14px}
+  .about p{color:var(--ink);text-align:left;max-width:680px;margin:0 auto 12px}
+  .socials{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:20px}
+  .socials a{background:var(--soft);border:1px solid var(--line);border-radius:999px;padding:8px 16px;font-size:14px;cursor:pointer;transition:.2s}
+  .socials a:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .media-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:14px;margin-top:16px}
+  .media-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;text-align:center;cursor:pointer;transition:.2s}
+  .media-card:hover{transform:translateY(-3px);border-color:var(--accent)}
+  .media-card .ic{font-size:30px}
+  .media-card .nm{font-weight:600;margin-top:6px;font-size:15px}
+  .media-card .ds{color:var(--muted);font-size:12.5px;margin-top:2px}
+
+  /* 简历页 */
+  .resume{max-width:760px;margin:0 auto}
+  .resume .r-head{text-align:center;margin-bottom:8px}
+  .resume .r-head h1{font-size:30px;margin:0}
+  .resume .r-head .sub{color:var(--accent);font-weight:600;margin-top:4px}
+  .resume .r-sum{color:var(--muted);text-align:center;margin:10px auto 28px;max-width:620px}
+  .r-block{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);margin-bottom:20px}
+  .r-block h2{font-size:19px;margin:0 0 14px;display:flex;align-items:center;gap:8px}
+  .r-block h2 .ic{color:var(--accent)}
+  .skill-group{margin-bottom:12px}
+  .skill-group .gn{font-weight:600;font-size:14px;margin-bottom:6px;color:var(--muted)}
+  .skill-tags{display:flex;gap:8px;flex-wrap:wrap}
+  .skill-tags span{background:var(--tag-bg);color:var(--tag-ink);padding:5px 12px;border-radius:999px;font-size:13px}
+  .tl{position:relative;padding-left:22px}
+  .tl::before{content:"";position:absolute;left:6px;top:4px;bottom:4px;width:2px;background:var(--line)}
+  .tl .it{position:relative;margin-bottom:18px}
+  .tl .it::before{content:"";position:absolute;left:-19px;top:6px;width:11px;height:11px;border-radius:50%;background:var(--accent);border:2px solid var(--bg)}
+  .tl .it .t{font-weight:700}
+  .tl .it .m{color:var(--muted);font-size:13.5px}
+  .tl .it .d{font-size:14.5px;margin-top:4px}
+  .cert-list{display:flex;gap:10px;flex-wrap:wrap}
+  .cert-list span{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:8px 14px;font-size:14px}
+
+  /* 友链 */
+  .links-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+  .link-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;display:flex;gap:12px;align-items:center;cursor:pointer;transition:.2s}
+  .link-card:hover{transform:translateY(-3px);border-color:var(--accent)}
+  .link-card .av{width:46px;height:46px;border-radius:12px;background:var(--soft);display:flex;align-items:center;justify-content:center;font-size:22px;flex:0 0 auto}
+  .link-card .nm{font-weight:600}
+  .link-card .ds{color:var(--muted);font-size:13px}
+
+  .empty{text-align:center;color:var(--muted);padding:60px 0;font-size:15px}
+  .loadmore{display:block;margin:26px auto 0;background:var(--accent);color:#fff;border:none;border-radius:999px;padding:11px 28px;font-size:15px;cursor:pointer}
+  .loadmore:hover{filter:brightness(1.05)}
+
+  footer{text-align:center;color:var(--muted);font-size:13.5px;padding:30px 16px;line-height:2}
+  footer .heart{color:var(--accent)}
+  footer a{color:var(--accent)}
+
+  /* 返回顶部 */
+  .to-top{position:fixed;right:20px;bottom:24px;width:44px;height:44px;border-radius:50%;border:none;
+    background:var(--accent);color:#fff;font-size:20px;cursor:pointer;box-shadow:var(--shadow);display:none;z-index:55;align-items:center;justify-content:center}
+  .to-top.show{display:flex}
+
+  /* 赞赏弹窗 */
+  .modal{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:70;display:none;align-items:center;justify-content:center;padding:20px}
+  .modal.open{display:flex}
+  .modal .box{background:var(--card);border-radius:18px;padding:26px;max-width:340px;width:100%;text-align:center;position:relative}
+  .modal .box .x{position:absolute;top:12px;right:16px;font-size:22px;border:none;background:transparent;cursor:pointer;color:var(--muted)}
+  .modal .rw-img{width:180px;height:180px;object-fit:cover;border-radius:12px;background:var(--soft);margin:8px auto;display:block}
+  .modal .rw-emoji{font-size:90px;margin:8px 0}
+
+  .fade{animation:fade .35s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .pv{color:var(--muted);font-size:13px}
+
+  /* 自适应 */
+  @media(max-width:860px){.hero h1{font-size:34px}main{padding:0 16px 70px}}
+  @media(max-width:680px){
+    .nav{flex-wrap:wrap;padding:10px 16px;row-gap:8px}
+    .brand .name{font-size:17px}
+    .brand .logo{width:34px;height:34px;font-size:17px}
+    .topmenu{display:none}
+    .search-box{display:none}
+    .hamburger{display:flex}
+    .hero{padding:40px 0 24px}
+    .hero h1{font-size:25px;line-height:1.4}
+    .hero p{font-size:14.5px}
+    .grid,.related .grid,.gallery{grid-template-columns:1fr}
+    .article,.about,.r-block{padding:24px 18px}
+    .article h1{font-size:24px}
+    .article-body{font-size:16px}
+    .about .avatar{width:74px;height:74px;font-size:32px}
+    .media-grid{grid-template-columns:repeat(2,1fr)}
+    .gallery{grid-template-columns:repeat(2,1fr)}
+    .links-grid{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="nav">
+    <div class="brand" onclick="go('home')">
+      <div class="logo" id="brandLogo">南</div>
+      <div class="name" id="brandName">南曦笔话</div>
+    </div>
+    <nav class="topmenu" id="topmenu"></nav>
+    <div class="nav-right">
+      <div class="search-box">
+        <span>🔍</span>
+        <input id="searchInput" placeholder="搜索文章…" oninput="onSearch(this.value)">
+      </div>
+      <button class="icon-btn" id="themeBtn" onclick="toggleTheme()" title="切换深色/浅色">🌞</button>
+      <button class="icon-btn hamburger" onclick="openDrawer()" title="菜单">☰</button>
+    </div>
+  </div>
+</header>
+
+<!-- 移动端抽屉 -->
+<div class="drawer-mask" id="drawerMask" onclick="closeDrawer()"></div>
+<div class="drawer" id="drawer">
+  <button class="close" onclick="closeDrawer()">×</button>
+  <div id="drawerMenu"></div>
+  <div class="d-search">
+    <span>🔍</span>
+    <input id="drawerSearch" placeholder="搜索文章…" oninput="onSearch(this.value)">
+  </div>
+  <div class="d-tools">
+    <span>主题</span>
+    <button class="icon-btn" onclick="toggleTheme()">🌞/🌙</button>
+  </div>
+</div>
+
+<main id="app"></main>
+
+<footer>
+  <p>© <span id="year"></span> <span id="footName">南曦笔话</span> · 用 <span class="heart">❤</span> 记录生活</p>
+  <p class="pv">总访问量 <span id="busuanzi_value_site_pv">—</span> · 访客数 <span id="busuanzi_value_site_uv">—</span></p>
+  <p><a href="rss.xml">📡 RSS 订阅</a></p>
+</footer>
+
+<!-- 灯箱 -->
+<div class="lb" id="lightbox" onclick="closeLightbox()">
+  <span class="x">×</span>
+  <img id="lbImg" src="" alt="">
+  <div class="cap" id="lbCap"></div>
+</div>
+
+<!-- 赞赏弹窗 -->
+<div class="modal" id="rewardModal" onclick="if(event.target===this)closeReward()">
+  <div class="box">
+    <button class="x" onclick="closeReward()">×</button>
+    <h3 style="margin:0 0 6px">请我喝杯奶茶 🧋</h3>
+    <div id="rewardBody"></div>
+  </div>
+</div>
+
+<button class="to-top" id="toTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+/* ============ 默认数据（本地预览/未接后台时使用） ============ */
+const DEFAULT_CONFIG = {
+  siteName: "南曦笔话",
+  logoText: "南",
+  authorName: "南曦",
+  tagline: "你好，欢迎来到我的小角落 —— 这里记录技术、生活与随想。",
+  about: [
+    "我是一名软件测试工程师，喜欢把复杂的东西讲简单。",
+    "这个博客用来沉淀学习笔记、记录生活片段，也当作自己的成长档案。",
+    "如果你也喜欢慢下来认真生活，欢迎常来坐坐 ☕"
+  ],
+  socials: [
+    { label:"邮箱",   url:"mailto:your@email.com" },
+    { label:"GitHub", url:"#" },
+    { label:"微博",   url:"#" }
+  ],
+  media: [
+    { name:"公众号",  icon:"💬", url:"#", desc:"南曦笔话" },
+    { name:"微博",    icon:"🐧", url:"#", desc:"@南曦" },
+    { name:"小红书",  icon:"📕", url:"#", desc:"南曦" },
+    { name:"B站",     icon:"📺", url:"#", desc:"南曦的频道" },
+    { name:"GitHub",  icon:"🐙", url:"#", desc:"nanxi" }
+  ],
+  photos: [
+    { src:"", emoji:"🌅", caption:"晨光" },
+    { src:"", emoji:"🍰", caption:"下午茶" },
+    { src:"", emoji:"📚", caption:"书桌一角" },
+    { src:"", emoji:"🌿", caption:"阳台绿植" },
+    { src:"", emoji:"🐱", caption:"我家主子" },
+    { src:"", emoji:"🌃", caption:"城市夜色" }
+  ],
+  /* 评论（Waline：访客免登录、自动记录 IP 与归属地） */
+  waline: { serverURL:"", pageview:true },
+  /* 简历 / 作品集 */
+  resume: {
+    headline:"南曦",
+    sub:"软件测试工程师 · 求职中",
+    summary:"3 年软件测试经验，擅长功能 / 接口 / 自动化测试，熟悉 Python 与测试工具链。做事细致，喜欢把问题想透。",
+    skills:[
+      { group:"测试方向", tags:["功能测试","接口测试","自动化测试","性能测试","兼容性测试"] },
+      { group:"工具链",    tags:["Postman","JMeter","Selenium","Pytest","Fiddler","Charles"] },
+      { group:"语言/其它", tags:["Python","SQL","Linux","Git","Jira","Confluence"] }
+    ],
+    experience:[
+      { role:"测试工程师（外包）", company:"面壁智能 ModelBest", period:"2024 – 2026", desc:"负责大模型相关产品的功能与接口测试，编写自动化用例，参与持续集成。" },
+      { role:"测试工程师", company:"某互联网公司", period:"2021 – 2024", desc:"负责核心业务线测试，搭建接口自动化框架，推动质量度量。" }
+    ],
+    education:[
+      { school:"某某大学", major:"计算机科学与技术（本科）", period:"2017 – 2021" }
+    ],
+    certifications:["ISTQB 基础级","计算机等级二级（Python）"]
+  },
+  links: [
+    { name:"WorkBuddy", url:"https://www.codebuddy.cn", desc:"我的 AI 助手", avatar:"🤖" },
+    { name:"示例友站",   url:"#", desc:"一个有温度的小站", avatar:"🌟" }
+  ],
+  reward: { wechat:"", alipay:"", note:"你的支持是我继续写下去的动力～" },
+  seo: { title:"南曦笔话", description:"技术笔记、生活随笔与随想。", image:"" },
+  menus: [
+    { title:"首页", link:"home" },
+    { title:"技术", link:"tech" },
+    { title:"生活", link:"life" },
+    { title:"随想", link:"mind" },
+    { title:"相册", link:"gallery" },
+    { title:"留言墙", link:"board" },
+    { title:"简历", link:"resume" },
+    { title:"友链", link:"links" },
+    { title:"关于", link:"about", children:[
+        { title:"联系我",      link:"mailto:your@email.com" },
+        { title:"我的 GitHub", link:"#" }
+    ]}
+  ]
+};
+
+const DEFAULT_POSTS = [
+  { id:1, title:"我是怎么从零学自动化测试的", cat:"tech", date:"2026-06-20",
+    tags:["自动化测试","Python","入门"],
+    excerpt:"从只会手工点点到写出第一个自动化脚本，我走过的坑和总结的方法。",
+    content:"# 我是怎么从零学自动化测试的\n\n很多人觉得自动化测试很难，其实**关键是先跑通再优化**。\n\n## 第一步：选一门语言\n\n我选了 Python，语法简单、生态全。\n\n## 第二步：写一个能跑的脚本\n\n```python\nimport requests\nr = requests.get('https://api.example.com/health')\nassert r.status_code == 200\nprint('ok')\n```\n\n## 第三步：把用例组织起来\n\n用 Pytest 管理，慢慢形成自己的框架。\n\n> 慢就是快，先把一条用例写稳。" },
+  { id:2, title:"周末做了一锅暖暖的番茄牛腩", cat:"life", date:"2026-06-12",
+    tags:["生活","美食","治愈"],
+    excerpt:"把时间交给一锅汤，是周末最舒服的仪式感。",
+    content:"# 周末做了一锅暖暖的番茄牛腩\n\n周六的下午，把牛腩焯水、番茄炒出沙，小火慢炖一个半小时。\n\n## 小技巧\n\n- 番茄去皮更顺滑\n- 最后放一点冰糖提鲜\n\n出锅那一刻，整个屋子都是温柔的味道 🍅" },
+  { id:3, title:"关于“慢一点”这件事", cat:"mind", date:"2026-05-30",
+    tags:["随想","生活态度"],
+    excerpt:"失业这段时间，反而让我学会了和节奏和解。",
+    content:"# 关于慢一点这件事\n\n最近没有工作，心里难免慌。但静下来发现，慢下来才能看清自己真正想要什么。\n\n## 一点想法\n\n- 不比较别人的进度\n- 把每天过踏实\n\n愿我们都能在喧嚣里，守住自己的节拍。" },
+  { id:4, title:"接口测试里那些容易忽略的边界", cat:"tech", date:"2026-05-18",
+    tags:["接口测试","质量","经验"],
+    excerpt:"状态码、超时、幂等……接口测试的边界远比想象中多。",
+    content:"# 接口测试里那些容易忽略的边界\n\n## 边界清单\n\n1. 空值与超长字段\n2. 并发与幂等\n3. 超时与重试\n\n写用例时，多问一句：\"如果出问题，会在哪一步？\"" }
+];
+
+/* ============ 运行时状态 ============ */
+let CONFIG = JSON.parse(JSON.stringify(DEFAULT_CONFIG));
+let POSTS  = DEFAULT_POSTS.map(p=>({...p}));
+let current = 'home';
+let activeFilter = 'all';
+let searchTerm = '';
+let currentPage = 1;
+const PAGE_SIZE = 4;
+
+const CATS = { tech:{name:"技术",color:"#e58b6d"}, life:{name:"生活",color:"#7fb98e"}, mind:{name:"随想",color:"#8aa6d6"} };
+
+/* ============ 工具函数 ============ */
+function escHtml(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function escAttr(s){return String(s==null?'':s).replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+function md(text){
+  try{ return marked.parse(String(text||'')); }catch(e){ return escHtml(text); }
+}
+function $(id){return document.getElementById(id);}
+function setMeta(title,desc,img){
+  if(title){document.title=title+' · '+CONFIG.siteName;}
+  if(desc){let m=document.querySelector('meta[name=description]');if(m)m.content=desc;
+    let o=document.querySelector('meta[property="og:description"]');if(o)o.content=desc;}
+  if(img){let o=document.querySelector('meta[property="og:image"]');if(o)o.content=img;}
+}
+
+/* ============ 主题 ============ */
+function applyTheme(){
+  const t = localStorage.getItem('theme')||'light';
+  document.body.classList.toggle('dark', t==='dark');
+  $('themeBtn').textContent = t==='dark'?'🌙':'🌞';
+}
+function toggleTheme(){
+  const dark = document.body.classList.toggle('dark');
+  localStorage.setItem('theme', dark?'dark':'light');
+  $('themeBtn').textContent = dark?'🌙':'🌞';
+}
+
+/* ============ 菜单 ============ */
+function renderTopMenu(){
+  const m = $('topmenu');
+  m.innerHTML = (CONFIG.menus||[]).map(it=>{
+    if(it.children&&it.children.length){
+      return `<div><button class="${isActive(it.link)?'active':''}" onclick="menuAction('${escAttr(it.link)}')">${escHtml(it.title)} ▾</button>
+        <div class="dropdown">${it.children.map(c=>renderSub(c)).join('')}</div></div>`;
+    }
+    return `<a href="javascript:void(0)"><button class="${isActive(it.link)?'active':''}" onclick="menuAction('${escAttr(it.link)}')">${escHtml(it.title)}</button></a>`;
+  }).join('');
+}
+function renderSub(it){
+  if(it.children&&it.children.length){
+    return `<div class="sub"><a href="javascript:void(0)" onclick="menuAction('${escAttr(it.link)}')">${escHtml(it.title)} ▸</a>
+      <div class="dropdown">${it.children.map(renderSub).join('')}</div></div>`;
+  }
+  return `<a href="javascript:void(0)" onclick="menuAction('${escAttr(it.link)}')">${escHtml(it.title)}</a>`;
+}
+function isActive(link){
+  const map={home:'home',tech:'tech',life:'life',mind:'mind',gallery:'gallery',board:'board',resume:'resume',links:'links',about:'about'};
+  return map[link]===current;
+}
+function renderDrawer(){
+  const d = $('drawerMenu');
+  d.innerHTML = (CONFIG.menus||[]).map(it=>{
+    if(it.children&&it.children.length){
+      return `<div class="d-item has-children" onclick="menuAction('${escAttr(it.link)}')">${escHtml(it.title)}</div>
+        <div class="d-sub">${it.children.map(c=>`<div class="d-item" onclick="menuAction('${escAttr(c.link)}')">${escHtml(c.title)}</div>`).join('')}</div>`;
+    }
+    return `<div class="d-item" onclick="menuAction('${escAttr(it.link)}')">${escHtml(it.title)}</div>`;
+  }).join('');
+}
+function openDrawer(){$('drawer').classList.add('open');$('drawerMask').style.display='block';}
+function closeDrawer(){$('drawer').classList.remove('open');$('drawerMask').style.display='none';}
+
+function menuAction(link){
+  closeDrawer();
+  if(!link||link==='#') return;
+  if(['home','about','tech','life','mind','gallery','board','resume','links'].includes(link)) go(link);
+  else if(link.startsWith('post:')) openPost(parseInt(link.slice(5))||0);
+  else if(/^https?:\/\//i.test(link)) window.open(link,'_blank');
+  else if(link.startsWith('mailto:')) window.location.href=link;
+  else window.location.href=link;
+}
+
+/* ============ 路由 ============ */
+function go(key){
+  current=key;
+  activeFilter = (key==='tech'||key==='life'||key==='mind')?key:'all';
+  if(key!=='home') searchTerm='';
+  currentPage=1;
+  $('searchInput').value=''; if($('drawerSearch')) $('drawerSearch').value='';
+  window.scrollTo({top:0});
+  renderAll();
+}
+function onSearch(v){
+  searchTerm=(v||'').trim().toLowerCase();
+  currentPage=1;
+  if(current!=='home'&&current!=='tech'&&current!=='life'&&current!=='mind'){current='home';activeFilter='all';}
+  renderList();
+  if($('searchInput')) $('searchInput').value=v;
+  if($('drawerSearch')) $('drawerSearch').value=v;
+}
+
+function filteredPosts(){
+  let list = POSTS.slice();
+  if(activeFilter!=='all') list = list.filter(p=>p.cat===activeFilter);
+  if(searchTerm){
+    list = list.filter(p=>{
+      const hay = (p.title+' '+p.excerpt+' '+(p.tags||[]).join(' ')+' '+p.content).toLowerCase();
+      return hay.includes(searchTerm);
+    });
+  }
+  list.sort((a,b)=> (b.date||'').localeCompare(a.date||''));
+  return list;
+}
+
+/* ============ 渲染 ============ */
+function applyConfig(){
+  document.title = CONFIG.siteName;
+  $('brandName').textContent = CONFIG.siteName;
+  $('brandLogo').textContent = CONFIG.logoText;
+  $('footName').textContent = CONFIG.siteName;
+  $('year').textContent = new Date().getFullYear();
+  setMeta(CONFIG.seo?.title||CONFIG.siteName, CONFIG.seo?.description||CONFIG.tagline, CONFIG.seo?.image||'');
+}
+
+function renderAll(){
+  applyConfig();
+  renderTopMenu();
+  renderDrawer();
+  if(current==='about') renderAbout();
+  else if(current==='gallery') renderGallery();
+  else if(current==='board') renderBoard();
+  else if(current==='resume') renderResume();
+  else if(current==='links') renderLinks();
+  else renderList();
+  window.scrollTo({top:0});
+}
+
+function tagChips(post){
+  return (post.tags||[]).map(t=>`<span class="chip" onclick="event.stopPropagation();searchTag('${escAttr(t)}')">#${escHtml(t)}</span>`).join('');
+}
+function searchTag(t){ $('searchInput').value=t; if($('drawerSearch'))$('drawerSearch').value=t; onSearch(t); }
+
+function renderList(){
+  const app = $('app');
+  if(current==='home'){
+    app.innerHTML = `<section class="hero fade">
+      <div class="deco">🌿</div>
+      <h1>你好，欢迎来到<span class="hl">${escHtml(CONFIG.siteName)}</span></h1>
+      <p>${escHtml(CONFIG.tagline)}</p>
+    </section>`;
+  } else {
+    app.innerHTML = `<div class="sec-title fade"><span class="bar"></span>${escHtml(CATS[current]?CATS[current].name:(current==='home'?'全部':''))}文章</div>`;
+  }
+  // 标签筛选条
+  const allTags = [...new Set(POSTS.flatMap(p=>p.tags||[]))];
+  let bar = `<div class="filter-tags">`;
+  bar += `<button class="${searchTerm===''?'active':''}" onclick="clearTag()">全部</button>`;
+  bar += allTags.map(t=>`<button class="${searchTerm===t.toLowerCase()?'active':''}" onclick="searchTag('${escAttr(t)}')">#${escHtml(t)}</button>`).join('');
+  bar += `</div>`;
+  app.innerHTML += bar;
+
+  const list = filteredPosts();
+  if(!list.length){ app.innerHTML += `<div class="empty">没有找到相关文章 🍃</div>`; return; }
+  const shown = list.slice(0, PAGE_SIZE*currentPage);
+  app.innerHTML += `<div class="grid">` + shown.map(cardHTML).join('') + `</div>`;
+  if(shown.length<list.length){
+    app.innerHTML += `<button class="loadmore" onclick="currentPage++;renderList()">加载更多（${list.length-shown.length}）</button>`;
+  }
+}
+function clearTag(){ onSearch(''); }
+
+function cardHTML(p){
+  const c = CATS[p.cat]||{name:p.cat,color:'#999'};
+  return `<div class="post-card" onclick="openPost(${p.id})">
+    <span class="cat" style="background:${c.color}">${escHtml(c.name)}</span>
+    <h3>${escHtml(p.title)}</h3>
+    <div class="ex">${escHtml(p.excerpt||'')}</div>
+    <div class="tags">${tagChips(p)}</div>
+    <div class="m"><span>${escHtml(p.date)}</span><span class="dot"></span><span>${escHtml(CONFIG.authorName)}</span></div>
+  </div>`;
+}
+
+function openPost(id){
+  const p = POSTS.find(x=>x.id===id);
+  if(!p){ $('app').innerHTML=`<div class="empty">文章不存在</div>`; return; }
+  const c = CATS[p.cat]||{name:p.cat,color:'#999'};
+  setMeta(p.title, p.excerpt, CONFIG.seo?.image||'');
+  $('app').innerHTML = `
+    <article class="article fade">
+      <button class="back" onclick="go('${p.cat}')">← 返回列表</button>
+      <span class="cat-badge" style="background:${c.color}">${escHtml(c.name)}</span>
+      <h1>${escHtml(p.title)}</h1>
+      <div class="meta"><span>${escHtml(p.date)}</span><span class="dot"></span><span>${escHtml(CONFIG.authorName)}</span>
+        <span class="dot"></span><span class="pv">👁 <span class="waline-pageview" data-path="post-${p.id}">—</span></span></div>
+      <div class="article-body">${md(p.content)}</div>
+      <div class="article-tags">${tagChips(p)}</div>
+      <div class="post-tools">
+        <button class="tool-btn" onclick="sharePost('${escAttr(p.title)}')">🔗 分享</button>
+        <button class="tool-btn" onclick="openReward()">💝 赞赏</button>
+      </div>
+      <div class="toc" id="tocBox"></div>
+      <div class="related"><div class="sec-title"><span class="bar"></span>相关文章</div><div class="grid" id="relBox"></div></div>
+      <div class="comments">
+        <div class="c-title">💬 评论</div>
+        <div class="c-hint">欢迎留言，无需登录，留下昵称即可（会记录你的 IP 属地）。</div>
+        <div id="commentBox"></div>
+      </div>
+    </article>`;
+  buildTOC();
+  renderRelated(p);
+  if(window.hljs) document.querySelectorAll('.article-body pre code').forEach(b=>hljs.highlightElement(b));
+  loadWaline($('commentBox'), 'post-'+p.id);
+  if(CONFIG.waline.pageview && window.Waline) {/* handled by waline */}
+}
+
+function buildTOC(){
+  const box = $('tocBox'); if(!box) return;
+  const hs = document.querySelectorAll('.article-body h2, .article-body h3');
+  if(!hs.length){ box.style.display='none'; return; }
+  let html = `<div class="t-title">📑 本文目录</div>`;
+  hs.forEach((h,i)=>{
+    h.id = 'h-'+i;
+    const lv = h.tagName==='H3'?'lv3':'';
+    html += `<a class="${lv}" href="#h-${i}" onclick="event.preventDefault();document.getElementById('h-${i}').scrollIntoView({behavior:'smooth'})">${escHtml(h.textContent)}</a>`;
+  });
+  box.innerHTML = html;
+}
+
+function renderRelated(p){
+  const box = $('relBox'); if(!box) return;
+  const rel = POSTS.filter(x=>x.id!==p.id && ((x.tags||[]).filter(t=>(p.tags||[]).includes(t)).length>0 || x.cat===p.cat))
+                  .slice(0,2);
+  box.innerHTML = rel.length? rel.map(cardHTML).join('') : `<div class="empty" style="padding:20px">暂无相关文章</div>`;
+}
+
+function renderAbout(){
+  const paras = (CONFIG.about||[]).map(t=>`<p>${escHtml(String(t).replace('我的名字',CONFIG.authorName))}</p>`).join('');
+  const socials = (CONFIG.socials||[]).map(s=>`<a href="${escAttr(s.url)}" target="_blank" rel="noopener">${escHtml(s.label)}</a>`).join('');
+  const media = (CONFIG.media||[]).map(m=>`<div class="media-card" onclick="if('${escAttr(m.url)}'!=='#')window.open('${escAttr(m.url)}','_blank')">
+      <div class="ic">${escHtml(m.icon||'🔗')}</div><div class="nm">${escHtml(m.name)}</div><div class="ds">${escHtml(m.desc||'')}</div></div>`).join('');
+  $('app').innerHTML = `
+    <section class="about fade">
+      <div class="avatar">${escHtml(CONFIG.logoText)}</div>
+      <h1>关于我</h1>
+      ${paras}
+      <div class="socials">${socials}</div>
+      <div class="sec-title" style="justify-content:center;margin-top:30px"><span class="bar"></span>在别处找到我</div>
+      <div class="media-grid">${media}</div>
+      <div style="margin-top:24px"><button class="tool-btn" onclick="openReward()">💝 赞赏支持</button></div>
+    </section>`;
+  setMeta('关于 · '+CONFIG.siteName, CONFIG.tagline, CONFIG.seo?.image||'');
+}
+
+function renderGallery(){
+  const g = (CONFIG.photos||[]).map(ph=>{
+    const inner = ph.src? `<img src="${escAttr(ph.src)}" alt="${escAttr(ph.caption)}">` : escHtml(ph.emoji||'🖼️');
+    return `<div class="ph" onclick="openLightbox('${escAttr(ph.src)}','${escAttr(ph.emoji||'')}','${escAttr(ph.caption||'')}')">${inner}</div>`;
+  }).join('');
+  $('app').innerHTML = `<div class="sec-title fade"><span class="bar"></span>相册</div><div class="gallery">${g}</div>`;
+  setMeta('相册 · '+CONFIG.siteName, CONFIG.tagline, CONFIG.seo?.image||'');
+}
+function openLightbox(src,emoji,cap){
+  const lb=$('lightbox');
+  if(src){ $('lbImg').style.display='block'; $('lbImg').src=src; }
+  else { $('lbImg').style.display='none'; }
+  $('lbCap').textContent = cap + (emoji&&!src?(' '+emoji):'');
+  lb.classList.add('open');
+}
+function closeLightbox(){$('lightbox').classList.remove('open');}
+
+function renderBoard(){
+  $('app').innerHTML = `<div class="sec-title fade"><span class="bar"></span>留言墙</div>
+    <section class="board fade"><div id="boardBox"></div></section>`;
+  loadWaline($('boardBox'),'guestbook');
+  setMeta('留言墙 · '+CONFIG.siteName, CONFIG.tagline, CONFIG.seo?.image||'');
+}
+
+function renderResume(){
+  const r = CONFIG.resume||{};
+  const skills = (r.skills||[]).map(s=>`
+    <div class="skill-group"><div class="gn">${escHtml(s.group)}</div>
+      <div class="skill-tags">${s.tags.map(t=>`<span>${escHtml(t)}</span>`).join('')}</div></div>`).join('');
+  const exp = (r.experience||[]).map(e=>`
+    <div class="it"><div class="t">${escHtml(e.role)} · ${escHtml(e.company)}</div>
+      <div class="m">${escHtml(e.period||'')}</div><div class="d">${escHtml(e.desc||'')}</div></div>`).join('');
+  const edu = (r.education||[]).map(e=>`
+    <div class="it"><div class="t">${escHtml(e.school)}</div>
+      <div class="m">${escHtml(e.major||'')} · ${escHtml(e.period||'')}</div></div>`).join('');
+  const certs = (r.certifications||[]).map(c=>`<span>${escHtml(c)}</span>`).join('');
+  $('app').innerHTML = `<div class="resume fade">
+    <div class="r-head"><h1>${escHtml(r.headline||CONFIG.authorName)}</h1><div class="sub">${escHtml(r.sub||'')}</div></div>
+    <p class="r-sum">${escHtml(r.summary||'')}</p>
+    <div class="r-block"><h2><span class="ic">🛠</span>技能栈</h2>${skills}</div>
+    <div class="r-block"><h2><span class="ic">💼</span>工作经历</h2><div class="tl">${exp}</div></div>
+    <div class="r-block"><h2><span class="ic">🎓</span>教育背景</h2><div class="tl">${edu}</div></div>
+    <div class="r-block"><h2><span class="ic">🏅</span>证书</h2><div class="cert-list">${certs}</div>
+      <div style="margin-top:16px"><button class="tool-btn" onclick="window.print()">📄 打印 / 存为 PDF</button></div></div>
+  </div>`;
+  setMeta('简历 · '+CONFIG.siteName, r.summary||CONFIG.tagline, CONFIG.seo?.image||'');
+}
+
+function renderLinks(){
+  const l = (CONFIG.links||[]).map(x=>`
+    <div class="link-card" onclick="if('${escAttr(x.url)}'!=='#')window.open('${escAttr(x.url)}','_blank')">
+      <div class="av">${escHtml(x.avatar||'🔗')}</div>
+      <div><div class="nm">${escHtml(x.name)}</div><div class="ds">${escHtml(x.desc||'')}</div></div>
+    </div>`).join('');
+  $('app').innerHTML = `<div class="sec-title fade"><span class="bar"></span>友情链接</div><div class="links-grid">${l||'<div class=empty>暂无友链</div>'}</div>`;
+  setMeta('友链 · '+CONFIG.siteName, CONFIG.tagline, CONFIG.seo?.image||'');
+}
+
+/* ============ 评论（Waline） ============ */
+let walineInstance=null;
+function loadWaline(el, path){
+  if(!el) return;
+  if(!CONFIG.waline || !CONFIG.waline.serverURL){
+    el.innerHTML = `<div class="notice">💡 <b>评论区已就绪，等你接上后端就能用。</b><br>按《后台使用与部署指南》「开启评论」一节，部署好 Waline 后端并填入「站点设置 → 评论设置」即可。访客免登录、自动记录 IP。</div>`;
+    return;
+  }
+  el.innerHTML='';
+  if(walineInstance && walineInstance.destroy) walineInstance.destroy();
+  walineInstance = Waline({ el, serverURL:CONFIG.waline.serverURL, path, pageview:!!CONFIG.waline.pageview,
+    dark:'auto', lang:'zh-CN' });
+}
+
+/* ============ 分享 / 赞赏 ============ */
+function sharePost(title){
+  const url = location.href;
+  if(navigator.share){ navigator.share({title:title,url:url}).catch(()=>{}); return; }
+  const text = `我在《${CONFIG.siteName}》看到一篇好文：${title} ${url}`;
+  const w = encodeURIComponent(url), t = encodeURIComponent(title);
+  const items = [
+    ['微博','https://service.weibo.com/share/share.php?url='+w+'&title='+t],
+    ['QQ','https://connect.qq.com/widget/shareqq/index.html?url='+w+'&title='+t],
+    ['复制链接', 'copy']
+  ];
+  let pick = prompt('选择分享方式：\n1. 微博\n2. QQ\n3. 复制链接', '3');
+  if(pick==='1') window.open(items[0][1],'_blank');
+  else if(pick==='2') window.open(items[1][1],'_blank');
+  else if(pick==='3'){ navigator.clipboard.writeText(url).then(()=>alert('链接已复制：'+url)); }
+}
+function openReward(){
+  const r = CONFIG.reward||{};
+  let body='';
+  if(r.wechat) body+=`<div>微信</div><img class="rw-img" src="${escAttr(r.wechat)}" alt="微信赞赏">`;
+  if(r.alipay) body+=`<div>支付宝</div><img class="rw-img" src="${escAttr(r.alipay)}" alt="支付宝赞赏">`;
+  if(!r.wechat&&!r.alipay) body=`<div class="rw-emoji">🧋</div><div>${escHtml(r.note||'赞赏码待设置')}</div>`;
+  $('rewardBody').innerHTML=body;
+  $('rewardModal').classList.add('open');
+}
+function closeReward(){$('rewardModal').classList.remove('open');}
+
+/* ============ 返回顶部 ============ */
+window.addEventListener('scroll',()=>{ $('toTop').classList.toggle('show', window.scrollY>400); });
+
+/* ============ 启动 ============ */
+applyTheme();
+renderAll();
+fetch('config.json').then(r=>r.json()).then(j=>{ if(j) CONFIG=Object.assign(CONFIG,j); return fetch('posts.json'); })
+  .then(r=>r.json()).then(j=>{
+    const arr = (j&&Array.isArray(j.posts))?j.posts : (Array.isArray(j)?j:null);
+    if(arr&&arr.length) POSTS=arr;
+    renderAll();
+  })
+  .catch(()=>{});
+</script>
+</body>
+</html>
