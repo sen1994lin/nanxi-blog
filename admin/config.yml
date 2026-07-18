@@ -1,6 +1,9 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: sen1994lin/nanxi-blog
   branch: main
+  # ↓ 把下面这行换成你部署好的 OAuth 代理网址（形如 https://xxxx.vercel.app），拿到后告诉 AI 帮你填即可
+  base_url: https://decap-cms-oauth-pi.vercel.app
 media_folder: "images"
 public_folder: "images"
 
