@@ -1,0 +1,162 @@
+backend:
+  name: git-gateway
+  branch: main
+media_folder: "images"
+public_folder: "images"
+
+collections:
+  - name: "site"
+    label: "站点设置"
+    files:
+      - name: "config"
+        label: "站点配置"
+        file: "config.json"
+        fields:
+          - { name: siteName,  label: "网站名称", widget: string }
+          - { name: logoText, label: "左上角图标(字/emoji)", widget: string }
+          - { name: authorName,label: "作者名", widget: string }
+          - { name: tagline,  label: "首页一句话简介", widget: string }
+          - name: about
+            label: "关于页段落(可多段)"
+            widget: list
+            field: { name: para, label: "段落", widget: text }
+          - name: socials
+            label: "联系方式"
+            widget: list
+            summary: "{{fields.label}}"
+            field:
+              - { name: label, label: "名称", widget: string }
+              - { name: url,   label: "链接", widget: string }
+          - name: media
+            label: "其他自媒体平台"
+            widget: list
+            summary: "{{fields.name}}"
+            field:
+              - { name: name, label: "平台名", widget: string }
+              - { name: icon, label: "图标emoji", widget: string }
+              - { name: url,  label: "跳转链接", widget: string }
+              - { name: desc, label: "说明", widget: string }
+          - name: photos
+            label: "相册"
+            widget: list
+            summary: "{{fields.caption}}"
+            field:
+              - { name: src,     label: "图片地址(留空则用emoji)", widget: string }
+              - { name: emoji,    label: "占位emoji", widget: string }
+              - { name: caption,  label: "说明", widget: string }
+          - name: waline
+            label: "评论设置(Waline)"
+            widget: object
+            collapsed: true
+            fields:
+              - { name: serverURL, label: "后端地址(填了才启用)", widget: string }
+              - { name: pageview,  label: "显示阅读量", widget: boolean }
+          - name: resume
+            label: "简历/作品集"
+            widget: object
+            collapsed: true
+            fields:
+              - { name: headline, label: "姓名", widget: string }
+              - { name: sub,      label: "副标题", widget: string }
+              - { name: summary,  label: "一句话简介", widget: text }
+              - name: skills
+                label: "技能分组"
+                widget: list
+                field:
+                  - { name: group, label: "分组名", widget: string }
+                  - name: tags
+                    label: "技能标签"
+                    widget: list
+                    field: { name: tag, label: "标签", widget: string }
+              - name: experience
+                label: "工作经历"
+                widget: list
+                field:
+                  - { name: role,    label: "职位", widget: string }
+                  - { name: company, label: "公司", widget: string }
+                  - { name: period,  label: "时间", widget: string }
+                  - { name: desc,    label: "描述", widget: text }
+              - name: education
+                label: "教育背景"
+                widget: list
+                field:
+                  - { name: school, label: "学校", widget: string }
+                  - { name: major,  label: "专业", widget: string }
+                  - { name: period, label: "时间", widget: string }
+              - name: certifications
+                label: "证书"
+                widget: list
+                field: { name: cert, label: "证书名", widget: string }
+          - name: links
+            label: "友情链接"
+            widget: list
+            summary: "{{fields.name}}"
+            field:
+              - { name: name,   label: "站点名", widget: string }
+              - { name: url,    label: "链接", widget: string }
+              - { name: desc,   label: "说明", widget: string }
+              - { name: avatar, label: "图标emoji", widget: string }
+          - name: reward
+            label: "赞赏设置"
+            widget: object
+            collapsed: true
+            fields:
+              - { name: wechat, label: "微信赞赏码图片地址", widget: string }
+              - { name: alipay, label: "支付宝赞赏码图片地址", widget: string }
+              - { name: note,   label: "提示语", widget: string }
+          - name: seo
+            label: "SEO/分享"
+            widget: object
+            collapsed: true
+            fields:
+              - { name: title,       label: "分享标题", widget: string }
+              - { name: description, label: "分享描述", widget: string }
+              - { name: image,       label: "分享封面图地址", widget: string }
+          - name: menus
+            label: "导航菜单(支持多级)"
+            widget: list
+            summary: "{{fields.title}}"
+            field:
+              - { name: title,   label: "菜单名", widget: string }
+              - { name: link,    label: "链接(home/tech/life/mind/gallery/board/resume/links/about/post:ID/网址/mailto:)", widget: string }
+              - name: children
+                label: "子菜单(二级)"
+                widget: list
+                field:
+                  - { name: title,   label: "菜单名", widget: string }
+                  - { name: link,    label: "链接", widget: string }
+                  - name: children
+                    label: "子菜单(三级)"
+                    widget: list
+                    field:
+                      - { name: title,   label: "菜单名", widget: string }
+                      - { name: link,    label: "链接", widget: string }
+                      - name: children
+                        label: "子菜单(四级)"
+                        widget: list
+                        field:
+                          - { name: title, label: "菜单名", widget: string }
+                          - { name: link,  label: "链接", widget: string }
+
+  - name: "posts"
+    label: "文章管理"
+    files:
+      - name: "posts"
+        label: "全部文章"
+        file: "posts.json"
+        fields:
+          - name: posts
+            label: "文章列表"
+            widget: list
+            summary: "{{fields.title}}"
+            field:
+              - { name: id,      label: "文章ID(数字,唯一)", widget: number }
+              - { name: title,   label: "标题", widget: string }
+              - { name: cat,     label: "分类", widget: select, options: [tech, life, mind] }
+              - { name: date,    label: "日期", widget: datetime }
+              - name: tags
+                label: "标签"
+                widget: list
+                field: { name: tag, label: "标签", widget: string }
+              - { name: excerpt, label: "摘要", widget: text }
+              - { name: content, label: "正文(Markdown)", widget: markdown }
