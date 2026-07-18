@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>南曦笔话</title>
+    <link>https://your-blog.netlify.app/</link>
+    <description>技术笔记、生活随笔与随想。</description>
+    <language>zh-CN</language>
+    <item>
+      <title>我是怎么从零学自动化测试的</title>
+      <link>https://your-blog.netlify.app/</link>
+      <description>从只会手工点点到写出第一个自动化脚本，我走过的坑和总结的方法。</description>
+      <pubDate>Sat, 20 Jun 2026 00:00:00 +0800</pubDate>
+    </item>
+    <item>
+      <title>周末做了一锅暖暖的番茄牛腩</title>
+      <link>https://your-blog.netlify.app/</link>
+      <description>把时间交给一锅汤，是周末最舒服的仪式感。</description>
+      <pubDate>Sat, 12 Jun 2026 00:00:00 +0800</pubDate>
+    </item>
+    <item>
+      <title>关于“慢一点”这件事</title>
+      <link>https://your-blog.netlify.app/</link>
+      <description>失业这段时间，反而让我学会了和节奏和解。</description>
+      <pubDate>Sat, 30 May 2026 00:00:00 +0800</pubDate>
+    </item>
+    <item>
+      <title>接口测试里那些容易忽略的边界</title>
+      <link>https://your-blog.netlify.app/</link>
+      <description>状态码、超时、幂等……接口测试的边界远比想象中多。</description>
+      <pubDate>Sat, 18 May 2026 00:00:00 +0800</pubDate>
+    </item>
+  </channel>
+</rss>
