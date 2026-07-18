@@ -2,7 +2,6 @@ backend:
   name: github
   repo: sen1994lin/nanxi-blog
   branch: main
-  # ↓ 把下面这行换成你部署好的 OAuth 代理网址（形如 https://xxxx.vercel.app），拿到后告诉 AI 帮你填即可
   base_url: https://decap-cms-oauth-pi.vercel.app
 media_folder: "images"
 public_folder: "images"
@@ -27,14 +26,14 @@ collections:
             label: "联系方式"
             widget: list
             summary: "{{fields.label}}"
-            field:
+            fields:
               - { name: label, label: "名称", widget: string }
               - { name: url,   label: "链接", widget: string }
           - name: media
             label: "其他自媒体平台"
             widget: list
             summary: "{{fields.name}}"
-            field:
+            fields:
               - { name: name, label: "平台名", widget: string }
               - { name: icon, label: "图标emoji", widget: string }
               - { name: url,  label: "跳转链接", widget: string }
@@ -43,7 +42,7 @@ collections:
             label: "相册"
             widget: list
             summary: "{{fields.caption}}"
-            field:
+            fields:
               - { name: src,     label: "图片地址(留空则用emoji)", widget: string }
               - { name: emoji,    label: "占位emoji", widget: string }
               - { name: caption,  label: "说明", widget: string }
@@ -65,7 +64,7 @@ collections:
               - name: skills
                 label: "技能分组"
                 widget: list
-                field:
+                fields:
                   - { name: group, label: "分组名", widget: string }
                   - name: tags
                     label: "技能标签"
@@ -74,7 +73,7 @@ collections:
               - name: experience
                 label: "工作经历"
                 widget: list
-                field:
+                fields:
                   - { name: role,    label: "职位", widget: string }
                   - { name: company, label: "公司", widget: string }
                   - { name: period,  label: "时间", widget: string }
@@ -82,7 +81,7 @@ collections:
               - name: education
                 label: "教育背景"
                 widget: list
-                field:
+                fields:
                   - { name: school, label: "学校", widget: string }
                   - { name: major,  label: "专业", widget: string }
                   - { name: period, label: "时间", widget: string }
@@ -94,7 +93,7 @@ collections:
             label: "友情链接"
             widget: list
             summary: "{{fields.name}}"
-            field:
+            fields:
               - { name: name,   label: "站点名", widget: string }
               - { name: url,    label: "链接", widget: string }
               - { name: desc,   label: "说明", widget: string }
@@ -119,25 +118,25 @@ collections:
             label: "导航菜单(支持多级)"
             widget: list
             summary: "{{fields.title}}"
-            field:
+            fields:
               - { name: title,   label: "菜单名", widget: string }
               - { name: link,    label: "链接(home/tech/life/mind/gallery/board/resume/links/about/post:ID/网址/mailto:)", widget: string }
               - name: children
                 label: "子菜单(二级)"
                 widget: list
-                field:
+                fields:
                   - { name: title,   label: "菜单名", widget: string }
                   - { name: link,    label: "链接", widget: string }
                   - name: children
                     label: "子菜单(三级)"
                     widget: list
-                    field:
+                    fields:
                       - { name: title,   label: "菜单名", widget: string }
                       - { name: link,    label: "链接", widget: string }
                       - name: children
                         label: "子菜单(四级)"
                         widget: list
-                        field:
+                        fields:
                           - { name: title, label: "菜单名", widget: string }
                           - { name: link,  label: "链接", widget: string }
 
@@ -152,7 +151,7 @@ collections:
             label: "文章列表"
             widget: list
             summary: "{{fields.title}}"
-            field:
+            fields:
               - { name: id,      label: "文章ID(数字,唯一)", widget: number }
               - { name: title,   label: "标题", widget: string }
               - { name: cat,     label: "分类", widget: select, options: [tech, life, mind] }
