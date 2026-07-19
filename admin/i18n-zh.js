@@ -177,6 +177,8 @@
     'Unsaved Changes': '⚠️ 有修改未保存！',
     'CHANGES SAVED': '✅ 修改已保存',
     'Changes saved': '✅ 修改已保存',
+    // 浏览器原生 confirm/alert 弹窗
+    'Are you sure you want to leave this page?': '⚠️ 当前页面有未保存的修改，确定要离开吗？',
     'Waiting for backend...': '正在等待后台服务…',
     'Not found': '未找到',
     'Config Errors:': '配置错误：',
@@ -310,4 +312,37 @@
     var obs = new MutationObserver(function () { schedule(); });
     obs.observe(document.documentElement, { childList: true, subtree: true });
   } catch (e) { /* 不支持就靠定时器 */ }
+
+  /* ============ 五、拦截浏览器原生对话框（confirm / alert / prompt） ============ */
+  function translateNativeText(text) {
+    if (!text) return text;
+    var t = text.trim();
+    if (EXACT.hasOwnProperty(t)) {
+      var rep = EXACT[t];
+      if (rep === '') return '';
+      return t.replace(t, rep);
+    }
+    for (var i = 0; i < REGEX.length; i++) {
+      var m = t.match(REGEX[i].re);
+      if (m) return REGEX[i].fn(m);
+    }
+    return text;
+  }
+
+  try {
+    var _confirm = window.confirm;
+    window.confirm = function (msg) {
+      return _confirm.call(window, translateNativeText(msg || ''));
+    };
+
+    var _alert = window.alert;
+    window.alert = function (msg) {
+      _alert.call(window, translateNativeText(msg || ''));
+    };
+
+    var _prompt = window.prompt;
+    window.prompt = function (msg, def) {
+      return _prompt.call(window, translateNativeText(msg || ''), def || '');
+    };
+  } catch (e) { /* 拦截失败静默忽略 */ }
 })();
