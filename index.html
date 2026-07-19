@@ -11,11 +11,11 @@
 <meta property="og:description" content="技术笔记、生活随笔与随想。">
 <meta property="og:image" content="">
 <meta name="twitter:card" content="summary_large_image">
-<!-- Markdown 渲染 -->
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-<!-- 代码高亮 -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/github.min.css">
-<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+<!-- Markdown 渲染（本地化，避免依赖境外CDN） -->
+<script src="vendor/marked.min.js"></script>
+<!-- 代码高亮（本地化） -->
+<link rel="stylesheet" href="vendor/highlight.github.min.css">
+<script src="vendor/highlight.min.js"></script>
 <!-- 不蒜子 阅读量统计（免费） -->
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 <style>
@@ -786,22 +786,26 @@ renderAll();
 fetch('config.json').then(r=>r.json()).then(j=>{ if(j) CONFIG=Object.assign(CONFIG,j); renderAll(); }).catch(()=>{});
 loadPosts();
 
-/* 从 posts/ 文件夹加载每篇独立文章；带缓存与旧 posts.json 兜底 */
+/* 本地化加载：依次探测 posts/1.json ~ posts/60.json（不依赖任何外部 API，国内托管也能用） */
 async function loadPosts(){
   const CACHE_KEY='nanxi_posts_cache', CACHE_TTL=10*60*1000;
   try{
     const c=JSON.parse(localStorage.getItem(CACHE_KEY)||'null');
     if(c && Date.now()-c.t<CACHE_TTL){ POSTS=c.d; renderAll(); return; }
   }catch(e){}
+  const MAX=60;
   try{
-    const list=await fetch('https://api.github.com/repos/sen1994lin/nanxi-blog/contents/posts').then(r=>r.json());
-    if(!Array.isArray(list)) throw new Error('not array');
-    const urls=list.filter(f=>f.name.endsWith('.json') && f.name!=='posts.json').map(f=>f.download_url);
-    const all=await Promise.all(urls.map(u=>fetch(u).then(r=>r.json())));
-    all.sort((a,b)=> new Date(b.date||0)-new Date(a.date||0));
-    POSTS=all;
-    try{ localStorage.setItem(CACHE_KEY, JSON.stringify({t:Date.now(), d:all})); }catch(e){}
-    renderAll();
+    const tasks=[];
+    for(let i=1;i<=MAX;i++){
+      tasks.push(fetch(`posts/${i}.json`).then(r=> r.ok? r.json():null).catch(()=>null));
+    }
+    const all=(await Promise.all(tasks)).filter(Boolean);
+    if(all.length){
+      all.sort((a,b)=> new Date(b.date||0)-new Date(a.date||0));
+      POSTS=all;
+      try{ localStorage.setItem(CACHE_KEY, JSON.stringify({t:Date.now(), d:all})); }catch(e){}
+      renderAll();
+    }
   }catch(e){
     // 兜底：旧的合并文件
     try{
@@ -811,13 +815,6 @@ async function loadPosts(){
     }catch(_){}
   }
 }
-</script>
-<!-- Netlify Identity 组件：用于处理 #recovery_token / #invite_token 等登录重置链接 -->
-<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-<script>
-  if (window.netlifyIdentity) {
-    netlifyIdentity.on('init', user => { if (!user) netlifyIdentity.on('login', () => window.location.href = '/admin/'); });
-  }
 </script>
 </body>
 </html>
