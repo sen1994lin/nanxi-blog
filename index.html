@@ -778,5 +778,12 @@ fetch('config.json').then(r=>r.json()).then(j=>{ if(j) CONFIG=Object.assign(CONF
   })
   .catch(()=>{});
 </script>
+<!-- Netlify Identity 组件：用于处理 #recovery_token / #invite_token 等登录重置链接 -->
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script>
+  if (window.netlifyIdentity) {
+    netlifyIdentity.on('init', user => { if (!user) netlifyIdentity.on('login', () => window.location.href = '/admin/'); });
+  }
+</script>
 </body>
 </html>
