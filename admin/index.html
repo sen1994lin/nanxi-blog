@@ -19,6 +19,7 @@
       'Publish':                 '发布',
       'Publish button':          '点击发布文章',
       'UNSAVED CHANGES':         '\u26A0\uFE0F 有修改未保存！',
+      'CHANGES SAVED':           '\u2705 修改已保存',
       'Collections':             '内容管理',
       'Search':                  '搜索\u2026',
       'New':                     '新增',
@@ -120,6 +121,10 @@
 
       // 校验消息
       'is required':             '\u662F\u5FC5\u586B\u9879\u54C9',
+
+      // 弹窗提示
+      'A local backup was recovered for this entry, would you like to use it?':
+                                  '\u68C0\u6D4B\u5230\u8FD9\u6761\u5185\u5BB9\u7684\u672C\u5730\u5907\u4EFD\uFF0C\u662F\u5426\u6062\u590D\u5907\u4EFD\u5185\u5BB9\uFF1F',
     };
 
     // ========== 第二部分：DOM 树安全遍历翻译 ==========
@@ -164,14 +169,13 @@
             changed = true;
           }
 
-          // "Writing in xxx collection" → "正在编辑 xxx"
-          if (/^Writing in /.test(txt)) {
-            n.nodeValue = txt.replace(/^Writing in (.+) collection/, '\u6B63\u5728\u7F16\u8F91 $1');
+          // "Writing in xxx collection" → "正在编辑 xxx"（多种格式兼容）
+          if (/Writing in/.test(txt) && /collection/.test(txt)) {
+            n.nodeValue = txt.replace(/Writing in\s+/, '\u6B63\u5728\u7F16\u8F91 ').replace(/\s*collection\s*/, '');
             changed = true;
           }
-
-          // 单独的 "collection" 残留
-          if (txt.trim() === 'collection' && n.parentElement.childNodes.length <= 2) {
+          // 单独残留的 "collection"
+          if (txt.trim() === 'collection') {
             n.nodeValue = '';
             changed = true;
           }
