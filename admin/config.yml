@@ -229,7 +229,7 @@ collections:
       - { label: "🌿 生活类", field: "cat", pattern: "life" }
       - { label: "💭 随想类", field: "cat", pattern: "mind" }
     fields:
-      - { name: id,       label: "文章编号（数字，不能重复。下一篇就填5、6…）", widget: number, value_type: int , required: false }
+      - { name: id,       label: "文章编号（唯一，决定文件名）", widget: number, value_type: int, hint: "非常重要！这是文章的唯一编号，填一个数字就生成 posts/这个数字.json。规则：看左侧文章列表里最大的编号是几，就填它+1（目前最大是6，新增请填7）。绝不能和已有文章重复，重复会覆盖别人的文章！", required: false }
       - { name: title,    label: "文章标题", widget: string , required: false }
       - name: cat
         label: "文章分类"
