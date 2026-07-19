@@ -11,227 +11,243 @@ collections:
     label: "站点设置"
     files:
       - name: "config"
-        label: "站点配置"
+        label: "站点配置（网站名、菜单、自媒体、相册等都在这里改）"
         file: "config.json"
         fields:
           - { name: siteName,  label: "网站名称", widget: string }
-          - { name: logoText, label: "左上角图标(字/emoji)", widget: string }
-          - { name: authorName,label: "作者名", widget: string }
-          - { name: tagline,  label: "首页一句话简介", widget: string }
+          - { name: logoText, label: "左上角图标（可以写一个字或放个emoji）", widget: string }
+          - { name: authorName,label: "作者名字", widget: string }
+          - { name: tagline,  label: "首页一句话介绍", widget: string }
           - name: about
-            label: "关于页段落(可多段)"
+            label: "关于我（一段话一段地写，会自动分段显示）"
             widget: list
-            field: { name: para, label: "段落", widget: text }
+            field: { name: para, label: "段落内容", widget: text }
           - name: socials
-            label: "联系方式"
+            label: "联系方式（邮箱、GitHub等）"
             widget: list
             summary: "{{fields.label}}"
             fields:
-              - { name: label, label: "名称", widget: string }
-              - { name: url,   label: "链接", widget: string }
+              - { name: label, label: "名称（比如：邮箱）", widget: string }
+              - { name: url,   label: "链接地址", widget: string }
           - name: media
-            label: "其他自媒体平台"
+            label: "自媒体平台（点击可跳转）"
             widget: list
             summary: "{{fields.name}}"
             fields:
-              - { name: name, label: "平台名", widget: string }
-              - { name: icon, label: "图标emoji", widget: string }
-              - { name: url,  label: "跳转链接", widget: string }
-              - { name: desc, label: "说明", widget: string }
+              - { name: name, label: "平台名称（比如：公众号）", widget: string }
+              - { name: icon, label: "图标（放一个emoji）", widget: string }
+              - { name: url,  label: "跳转地址", widget: string }
+              - { name: desc, label: "一句话说明", widget: string }
           - name: photos
-            label: "相册"
+            label: "相册图片"
             widget: list
             summary: "{{fields.caption}}"
             fields:
-              - { name: src,     label: "图片地址(留空则用emoji)", widget: string }
-              - { name: emoji,    label: "占位emoji", widget: string }
-              - { name: caption,  label: "说明", widget: string }
+              - { name: src,     label: "图片网址（有图就填，没有就留空用emoji代替）", widget: string }
+              - { name: emoji,    label: "占位图标（没放图时显示这个emoji）", widget: string }
+              - { name: caption,  label: "图片说明文字", widget: string }
           - name: waline
-            label: "评论设置(Waline)"
+            label: "评论系统（Waline）"
             widget: object
             collapsed: true
             fields:
-              - { name: serverURL, label: "后端地址(填了才启用)", widget: string }
-              - { name: pageview,  label: "显示阅读量", widget: boolean }
+              - { name: serverURL, label: "评论服务地址（填了才开启评论功能）", widget: string }
+              - { name: pageview,  label: "是否显示阅读量统计", widget: boolean, default: true }
           - name: resume
-            label: "简历/作品集"
+            label: "个人简历 / 作品集"
             widget: object
             collapsed: true
             fields:
               - { name: headline, label: "姓名", widget: string }
-              - { name: sub,      label: "副标题", widget: string }
-              - { name: summary,  label: "一句话简介", widget: text }
+              - { name: sub,      label: "副标题（比如职位+状态）", widget: string }
+              - { name: summary,  label: "自我介绍（一段话概括自己）", widget: text }
               - name: skills
                 label: "技能分组"
                 widget: list
                 fields:
-                  - { name: group, label: "分组名", widget: string }
+                  - { name: group, label: "分组名称（比如：测试方向）", widget: string }
                   - name: tags
-                    label: "技能标签"
+                    label: "具体技能标签"
                     widget: list
-                    field: { name: tag, label: "标签", widget: string }
+                    field: { name: tag, label: "技能名", widget: string }
               - name: experience
                 label: "工作经历"
                 widget: list
                 fields:
-                  - { name: role,    label: "职位", widget: string }
-                  - { name: company, label: "公司", widget: string }
-                  - { name: period,  label: "时间", widget: string }
-                  - { name: desc,    label: "描述", widget: text }
+                  - { name: role,    label: "职位名称", widget: string }
+                  - { name: company, label: "公司名称", widget: string }
+                  - { name: period,  label: "时间段（比如：2021 – 2024）", widget: string }
+                  - { name: desc,    label: "工作描述（做了什么、负责什么）", widget: text }
               - name: education
                 label: "教育背景"
                 widget: list
                 fields:
-                  - { name: school, label: "学校", widget: string }
+                  - { name: school, label: "学校名称", widget: string }
                   - { name: major,  label: "专业", widget: string }
-                  - { name: period, label: "时间", widget: string }
+                  - { name: period, label: "就读时间", widget: string }
               - name: certifications
-                label: "证书"
+                label: "证书 / 资格"
                 widget: list
-                field: { name: cert, label: "证书名", widget: string }
+                field: { name: cert, label: "证书名称", widget: string }
           - name: links
             label: "友情链接"
             widget: list
             summary: "{{fields.name}}"
             fields:
-              - { name: name,   label: "站点名", widget: string }
-              - { name: url,    label: "链接", widget: string }
-              - { name: desc,   label: "说明", widget: string }
-              - { name: avatar, label: "图标emoji", widget: string }
+              - { name: name,   label: "友站名称", widget: string }
+              - { name: url,    label: "友站地址", widget: string }
+              - { name: desc,   label: "一句话介绍", widget: string }
+              - { name: avatar, label: "图标（emoji）", widget: string }
           - name: reward
-            label: "赞赏设置"
+            label: "赞赏 / 打赏"
             widget: object
             collapsed: true
             fields:
-              - { name: wechat, label: "微信赞赏码图片地址", widget: string }
-              - { name: alipay, label: "支付宝赞赏码图片地址", widget: string }
-              - { name: note,   label: "提示语", widget: string }
+              - { name: wechat, label: "微信收款码（图片网址）", widget: string }
+              - { name: alipay, label: "支付宝收款码（图片网址）", widget: string }
+              - { name: note,   label: "打赏提示语", widget: string }
           - name: seo
-            label: "SEO/分享"
+            label: "搜索引擎优化 / 分享卡片设置"
             widget: object
             collapsed: true
             fields:
-              - { name: title,       label: "分享标题", widget: string }
-              - { name: description, label: "分享描述", widget: string }
-              - { name: image,       label: "分享封面图地址", widget: string }
+              - { name: title,       label: "分享标题（别人分享时显示的标题）", widget: string }
+              - { name: description, label: "分享描述（别人分享时显示的简介）", widget: string }
+              - { name: image,       label: "分享封面图（图片网址）", widget: string }
+
+          # ========== 导航菜单 ==========
           - name: menus
-            label: "导航菜单(支持多级)"
+            label: "导航菜单（顶部导航栏和手机侧边栏都会用到）"
             widget: list
-            summary: "{{fields.title}}"
+            summary: "{{fields.title}} → {{fields.typeLabel}}"
             fields:
-              - { name: title,   label: "菜单名称", widget: string }
+              - { name: title,   label: "菜单名称（比如：首页、技术、关于）", widget: string }
               - name: type
-                label: "点击后去哪"
+                label: "点击这个菜单要去哪里？（下拉选择）"
                 widget: select
                 options:
-                  - { label: "首页", value: "home" }
-                  - { label: "技术文章", value: "tech" }
-                  - { label: "生活随笔", value: "life" }
-                  - { label: "随想感悟", value: "mind" }
-                  - { label: "相册", value: "gallery" }
-                  - { label: "留言墙", value: "board" }
-                  - { label: "我的简历", value: "resume" }
-                  - { label: "友情链接", value: "links" }
-                  - { label: "关于我", value: "about" }
-                  - { label: "打开某篇文章", value: "post" }
-                  - { label: "自定义网址(新窗口打开)", value: "url" }
-                  - { label: "发邮件给我", value: "mailto" }
-              - { name: target, label: "目标值(按需填写)", widget: string, hint: "选了「打开某篇文章」→填文章ID数字；选了「自定义网址」→填 https://... ；选了「发邮件」→填邮箱地址；其他选项留空即可" }
+                  - { label: "→ 首页", value: "home" }
+                  - { label: "→ 技术文章列表", value: "tech" }
+                  - { label: "→ 生活随笔列表", value: "life" }
+                  - { label: "→ 随想感悟列表", value: "mind" }
+                  - { label: "→ 相册页面", value: "gallery" }
+                  - { label: "→ 留言墙", value: "board" }
+                  - { label: "→ 我的简历", value: "resume" }
+                  - { label: "→ 友情链接", value: "links" }
+                  - { label: "→ 关于我", value: "about" }
+                  - { label: "→ 跳转到某篇文章", value: "post" }
+                  - { label: "→ 打开一个外部网址", value: "url" }
+                  - { label: "→ 发邮件给我", value: "mailto" }
+              - { name: target, label: "补充信息（看上面选的是什么再填这里）", widget: string, hint: "选了「跳转到某篇文章」→ 填文章编号（数字）；选了「打开外部网址」→ 填完整网址（https://...）；选了「发邮件」→ 填邮箱地址；其他选项不用填，留空即可。" }
+              - name: typeLabel
+                label: "类型标记（不用手动改，自动生成）",
+                widget: hidden,
+                default: ""
+              # 二级子菜单
               - name: children
-                label: "二级菜单(留空则不显示)"
+                label: "二级子菜单（不需要就留空，不会显示）"
                 widget: list
                 summary: "{{fields.title}}"
                 fields:
                   - { name: title,   label: "菜单名称", widget: string }
                   - name: type
-                    label: "点击后去哪"
+                    label: "点击后去哪？"
                     widget: select
                     options:
-                      - { label: "首页", value: "home" }
-                      - { label: "技术文章", value: "tech" }
-                      - { label: "生活随笔", value: "life" }
-                      - { label: "随想感悟", value: "mind" }
-                      - { label: "相册", value: "gallery" }
-                      - { label: "留言墙", value: "board" }
-                      - { label: "我的简历", value: "resume" }
-                      - { label: "友情链接", value: "links" }
-                      - { label: "关于我", value: "about" }
-                      - { label: "打开某篇文章", value: "post" }
-                      - { label: "自定义网址(新窗口打开)", value: "url" }
-                      - { label: "发邮件给我", value: "mailto" }
-                  - { name: target, label: "目标值(按需填写)", widget: string, hint: "选了「打开某篇文章」→填文章ID数字；选了「自定义网址」→填 https://... ；选了「发邮件」→填邮箱地址；其他选项留空" }
+                      - { label: "→ 首页", value: "home" }
+                      - { label: "→ 技术文章列表", value: "tech" }
+                      - { label: "→ 生活随笔列表", value: "life" }
+                      - { label: "→ 随想感悟列表", value: "mind" }
+                      - { label: "→ 相册页面", value: "gallery" }
+                      - { label: "→ 留言墙", value: "board" }
+                      - { label: "→ 我的简历", value: "resume" }
+                      - { label: "→ 友情链接", value: "links" }
+                      - { label: "→ 关于我", value: "about" }
+                      - { label: "→ 跳转到某篇文章", value: "post" }
+                      - { label: "→ 打开外部网址", value: "url" }
+                      - { label: "→ 发邮件给我", value: "mailto" }
+                  - { name: target, label: "补充信息（同上规则）", widget: string }
                   - name: children
-                    label: "三级菜单(留空则不显示)"
+                    label: "三级子菜单（不需要留空）"
                     widget: list
                     summary: "{{fields.title}}"
                     fields:
                       - { name: title,   label: "菜单名称", widget: string }
                       - name: type
-                        label: "点击后去哪"
+                        label: "点击后去哪？"
                         widget: select
                         options:
-                          - { label: "首页", value: "home" }
-                          - { label: "技术文章", value: "tech" }
-                          - { label: "生活随笔", value: "life" }
-                          - { label: "随想感悟", value: "mind" }
-                          - { label: "相册", value: "gallery" }
-                          - { label: "留言墙", value: "board" }
-                          - { label: "我的简历", value: "resume" }
-                          - { label: "友情链接", value: "links" }
-                          - { label: "关于我", value: "about" }
-                          - { label: "打开某篇文章", value: "post" }
-                          - { label: "自定义网址(新窗口打开)", value: "url" }
-                          - { label: "发邮件给我", value: "mailto" }
-                      - { name: target, label: "目标值(按需填写)", widget: string, hint: "选了「打开某篇文章」→填文章ID数字；选了「自定义网址」→填 https://... ；选了「发邮件」→填邮箱地址；其他选项留空" }
+                          - { label: "→ 首页", value: "home" }
+                          - { label: "→ 技术文章列表", value: "tech" }
+                          - { label: "→ 生活随笔列表", value: "life" }
+                          - { label: "→ 随想感悟列表", value: "mind" }
+                          - { label: "→ 相册页面", value: "gallery" }
+                          - { label: "→ 留言墙", value: "board" }
+                          - { label: "→ 我的简历", value: "resume" }
+                          - { label: "→ 友情链接", value: "links" }
+                          - { label: "→ 关于我", value: "about" }
+                          - { label: "→ 跳转到某篇文章", value: "post" }
+                          - { label: "→ 打开外部网址", value: "url" }
+                          - { label: "→ 发邮件给我", value: "mailto" }
+                      - { name: target, label: "补充信息", widget: string }
                       - name: children
-                        label: "四级菜单(留空则不显示)"
+                        label: "四级子菜单（一般用不到，留空即可）"
                         widget: list
                         summary: "{{fields.title}}"
                         fields:
                           - { name: title,   label: "菜单名称", widget: string }
                           - name: type
-                            label: "点击后去哪"
+                            label: "点击后去哪？"
                             widget: select
                             options:
-                              - { label: "首页", value: "home" }
-                              - { label: "技术文章", value: "tech" }
-                              - { label: "生活随笔", value: "life" }
-                              - { label: "随想感悟", value: "mind" }
-                              - { label: "相册", value: "gallery" }
-                              - { label: "留言墙", value: "board" }
-                              - { label: "我的简历", value: "resume" }
-                              - { label: "友情链接", value: "links" }
-                              - { label: "关于我", value: "about" }
-                              - { label: "打开某篇文章", value: "post" }
-                              - { label: "自定义网址(新窗口打开)", value: "url" }
-                              - { label: "发邮件给我", value: "mailto" }
-                          - { name: target, label: "目标值(按需填写)", widget: string, hint: "选了「打开某篇文章」→填文章ID数字；选了「自定义网址」→填 https://... ；选了「发邮件」→填邮箱地址；其他选项留空" }
+                              - { label: "→ 首页", value: "home" }
+                              - { label: "→ 技术文章列表", value: "tech" }
+                              - { label: "→ 生活随笔列表", value: "life" }
+                              - { label: "→ 随想感悟列表", value: "mind" }
+                              - { label: "→ 相册页面", value: "gallery" }
+                              - { label: "→ 留言墙", value: "board" }
+                              - { label: "→ 我的简历", value: "resume" }
+                              - { label: "→ 友情链接", value: "links" }
+                              - { label: "→ 关于我", value: "about" }
+                              - { label: "→ 跳转到某篇文章", value: "post" }
+                              - { label: "→ 打开外部网址", value: "url" }
+                              - { label: "→ 发邮件给我", value: "mailto" }
+                          - { name: target, label: "补充信息", widget: string }
 
+  # ========== 文章管理 ==========
   - name: "posts"
     label: "文章管理"
     label_singular: "文章"
     folder: "posts"
     create: true
     slug: "{{fields.id}}"
-    summary: "【{{fields.cat}}】{{fields.title}}"
-    description: "点右上角「新增文章」即可发布；点列表里的任意一行可编辑，行末的 ⋯ 可删除。"
+    summary: "【{{fields.catName}}】{{fields.title}}"
+    description: "操作说明：点右上角「新增文章」发布新内容；点列表中的任意一行编辑；每行末尾 ⋯ 可删除。"
     editor:
       preview: true
     sortable_fields: [date, title, cat]
     view_filters:
-      - { label: "全部", field: "cat", pattern: ".*" }
-      - { label: "技术", field: "cat", pattern: "tech" }
-      - { label: "生活", field: "cat", pattern: "life" }
-      - { label: "随想", field: "cat", pattern: "mind" }
+      - { label: "📋 全部文章", field: "cat", pattern: ".*" }
+      - { label: "💻 技术类", field: "cat", pattern: "tech" }
+      - { label: "🌿 生活类", field: "cat", pattern: "life" }
+      - { label: "💭 随想类", field: "cat", pattern: "mind" }
     fields:
-      - { name: id,      label: "文章ID(数字,唯一,新增时自填)", widget: number }
-      - { name: title,   label: "标题", widget: string }
-      - { name: cat,     label: "分类", widget: select, options: [tech, life, mind], default: "tech" }
-      - { name: date,    label: "日期", widget: datetime }
+      - { name: id,       label: "文章编号（数字，不能重复。下一篇就填5、6…）", widget: number, value_type: int }
+      - { name: title,    label: "文章标题", widget: string }
+      - name: cat
+        label: "文章分类"
+        widget: select
+        options:
+          - { label: "💻 技术", value: "tech" }
+          - { label: "🌿 生活", value: "life" }
+          - { label: "💭 随想", value: "mind" }
+        default: "tech"
+      - { name: date,     label: "发布日期", widget: datetime, format: "YYYY-MM-DD" }
       - name: tags
-        label: "标签"
+        label: "标签（方便读者按关键词查找）"
         widget: list
-        summary: "{{fields.tag}}"
-        field: { name: tag, label: "标签", widget: string }
-      - { name: excerpt, label: "摘要", widget: text }
-      - { name: content, label: "正文(Markdown,右侧实时预览)", widget: markdown }
+        summary: "#{{fields.tag}}"
+        field: { name: tag, label: "标签词", widget: string }
+      - { name: excerpt,  label: "摘要（在列表里显示的简短介绍）", widget: text }
+      - { name: content,  label: "正文内容（支持Markdown格式，右边实时预览效果）", widget: markdown }
+      - { name: catName,  label: "分类中文名（不用改，自动对应）", widget: hidden, default: "" }
