@@ -119,7 +119,7 @@ collections:
           - name: menus
             label: "导航菜单（顶部导航栏和手机侧边栏都会用到）"
             widget: list
-            summary: "{{fields.title}} → {{fields.typeLabel}}"
+            summary: "{{fields.title}}"
             fields:
               - { name: title,   label: "菜单名称（比如：首页、技术、关于）", widget: string }
               - name: type
@@ -139,10 +139,6 @@ collections:
                   - { label: "→ 打开一个外部网址", value: "url" }
                   - { label: "→ 发邮件给我", value: "mailto" }
               - { name: target, label: "补充信息（看上面选的是什么再填这里）", widget: string, hint: "选了「跳转到某篇文章」→ 填文章编号（数字）；选了「打开外部网址」→ 填完整网址（https://...）；选了「发邮件」→ 填邮箱地址；其他选项不用填，留空即可。" }
-              - name: typeLabel
-                label: "类型标记（不用手动改，自动生成）",
-                widget: hidden,
-                default: ""
               # 二级子菜单
               - name: children
                 label: "二级子菜单（不需要就留空，不会显示）"
@@ -221,7 +217,7 @@ collections:
     folder: "posts"
     create: true
     slug: "{{fields.id}}"
-    summary: "【{{fields.catName}}】{{fields.title}}"
+    summary: "{{fields.title}}（{{fields.cat}}）"
     description: "操作说明：点右上角「新增文章」发布新内容；点列表中的任意一行编辑；每行末尾 ⋯ 可删除。"
     editor:
       preview: true
@@ -250,4 +246,3 @@ collections:
         field: { name: tag, label: "标签词", widget: string }
       - { name: excerpt,  label: "摘要（在列表里显示的简短介绍）", widget: text }
       - { name: content,  label: "正文内容（支持Markdown格式，右边实时预览效果）", widget: markdown }
-      - { name: catName,  label: "分类中文名（不用改，自动对应）", widget: hidden, default: "" }
