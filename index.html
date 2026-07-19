@@ -16,8 +16,16 @@
 <!-- 代码高亮（本地化） -->
 <link rel="stylesheet" href="vendor/highlight.github.min.css">
 <script src="vendor/highlight.min.js"></script>
-<!-- 不蒜子 阅读量统计（免费） -->
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!-- 本机浏览量统计（纯本地, 免费, 无境外依赖） -->
+<script>
+  document.addEventListener('DOMContentLoaded', function(){
+    try{
+      var k='nanxi_local_pv', n=(parseInt(localStorage.getItem(k)||'0',10)||0)+1;
+      localStorage.setItem(k, n);
+      var el=document.getElementById('local_pv'); if(el) el.textContent=n;
+    }catch(e){}
+  });
+</script>
 <style>
   :root{
     --bg:#fbf6ef; --card:#ffffff; --card2:#fff8f1;
@@ -296,7 +304,7 @@
 
 <footer>
   <p>© <span id="year"></span> <span id="footName">南曦笔话</span> · 用 <span class="heart">❤</span> 记录生活</p>
-  <p class="pv">总访问量 <span id="busuanzi_value_site_pv">—</span> · 访客数 <span id="busuanzi_value_site_uv">—</span></p>
+  <p class="pv">本机已浏览 <span id="local_pv">—</span> 次</p>
   <p><a href="rss.xml">📡 RSS 订阅</a></p>
 </footer>
 
