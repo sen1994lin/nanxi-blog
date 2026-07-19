@@ -3,6 +3,7 @@ backend:
   branch: main
 media_folder: "images"
 public_folder: "images"
+locale: zh
 
 collections:
   - name: "site"
