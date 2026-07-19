@@ -43,7 +43,7 @@ collections:
             widget: list
             summary: "{{fields.caption}}"
             fields:
-              - { name: src,     label: "图片网址（有图就填，没有就留空用emoji代替）", widget: string }
+              - { name: src,     label: "📷 上传图片（点这里选择电脑里的图片文件）", widget: image }
               - { name: emoji,    label: "占位图标（没放图时显示这个emoji）", widget: string }
               - { name: caption,  label: "图片说明文字", widget: string }
           - name: waline
@@ -103,8 +103,8 @@ collections:
             widget: object
             collapsed: true
             fields:
-              - { name: wechat, label: "微信收款码（图片网址）", widget: string }
-              - { name: alipay, label: "支付宝收款码（图片网址）", widget: string }
+              - { name: wechat, label: "📷 微信收款码（上传图片）", widget: image }
+              - { name: alipay, label: "📷 支付宝收款码（上传图片）", widget: image }
               - { name: note,   label: "打赏提示语", widget: string }
           - name: seo
             label: "搜索引擎优化 / 分享卡片设置"
@@ -113,7 +113,7 @@ collections:
             fields:
               - { name: title,       label: "分享标题（别人分享时显示的标题）", widget: string }
               - { name: description, label: "分享描述（别人分享时显示的简介）", widget: string }
-              - { name: image,       label: "分享封面图（图片网址）", widget: string }
+              - { name: image,       label: "📷 分享封面图（上传图片）", widget: image }
 
           # ========== 导航菜单 ==========
           - name: menus
