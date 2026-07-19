@@ -4,6 +4,7 @@ backend:
 media_folder: "images"
 public_folder: "images"
 locale: zh
+publish_mode: simple
 
 collections:
   - name: "site"
@@ -141,23 +142,29 @@ collections:
 
   - name: "posts"
     label: "文章管理"
-    files:
-      - name: "posts"
-        label: "全部文章"
-        file: "posts.json"
-        fields:
-          - name: posts
-            label: "文章列表"
-            widget: list
-            summary: "{{fields.title}}"
-            fields:
-              - { name: id,      label: "文章ID(数字,唯一)", widget: number }
-              - { name: title,   label: "标题", widget: string }
-              - { name: cat,     label: "分类", widget: select, options: [tech, life, mind] }
-              - { name: date,    label: "日期", widget: datetime }
-              - name: tags
-                label: "标签"
-                widget: list
-                field: { name: tag, label: "标签", widget: string }
-              - { name: excerpt, label: "摘要", widget: text }
-              - { name: content, label: "正文(Markdown)", widget: markdown }
+    label_singular: "文章"
+    folder: "posts"
+    create: true
+    slug: "{{fields.id}}"
+    summary: "【{{fields.cat}}】{{fields.title}}"
+    description: "点右上角「新增文章」即可发布；点列表里的任意一行可编辑，行末的 ⋯ 可删除。"
+    editor:
+      preview: true
+    sortable_fields: [date, title, cat]
+    view_filters:
+      - { label: "全部", field: "cat", pattern: ".*" }
+      - { label: "技术", field: "cat", pattern: "tech" }
+      - { label: "生活", field: "cat", pattern: "life" }
+      - { label: "随想", field: "cat", pattern: "mind" }
+    fields:
+      - { name: id,      label: "文章ID(数字,唯一,新增时自填)", widget: number }
+      - { name: title,   label: "标题", widget: string }
+      - { name: cat,     label: "分类", widget: select, options: [tech, life, mind], default: "tech" }
+      - { name: date,    label: "日期", widget: datetime }
+      - name: tags
+        label: "标签"
+        widget: list
+        summary: "{{fields.tag}}"
+        field: { name: tag, label: "标签", widget: string }
+      - { name: excerpt, label: "摘要", widget: text }
+      - { name: content, label: "正文(Markdown,右侧实时预览)", widget: markdown }

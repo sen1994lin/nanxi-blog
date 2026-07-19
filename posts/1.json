@@ -1,0 +1,9 @@
+{
+  "id": 1,
+  "title": "我是怎么从零学自动化测试的",
+  "cat": "tech",
+  "date": "2026-06-20",
+  "tags": ["自动化测试", "Python", "入门"],
+  "excerpt": "从只会手工点点到写出第一个自动化脚本，我走过的坑和总结的方法。",
+  "content": "# 我是怎么从零学自动化测试的\n\n很多人觉得自动化测试很难，其实**关键是先跑通再优化**。\n\n## 第一步：选一门语言\n\n我选了 Python，语法简单、生态全。\n\n## 第二步：写一个能跑的脚本\n\n```python\nimport requests\nr = requests.get('https://api.example.com/health')\nassert r.status_code == 200\nprint('ok')\n```\n\n## 第三步：把用例组织起来\n\n用 Pytest 管理，慢慢形成自己的框架。\n\n> 慢就是快，先把一条用例写稳。"
+}

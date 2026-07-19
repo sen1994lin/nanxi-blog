@@ -770,13 +770,34 @@ window.addEventListener('scroll',()=>{ $('toTop').classList.toggle('show', windo
 /* ============ 启动 ============ */
 applyTheme();
 renderAll();
-fetch('config.json').then(r=>r.json()).then(j=>{ if(j) CONFIG=Object.assign(CONFIG,j); return fetch('posts.json'); })
-  .then(r=>r.json()).then(j=>{
-    const arr = (j&&Array.isArray(j.posts))?j.posts : (Array.isArray(j)?j:null);
-    if(arr&&arr.length) POSTS=arr;
+fetch('config.json').then(r=>r.json()).then(j=>{ if(j) CONFIG=Object.assign(CONFIG,j); renderAll(); }).catch(()=>{});
+loadPosts();
+
+/* 从 posts/ 文件夹加载每篇独立文章；带缓存与旧 posts.json 兜底 */
+async function loadPosts(){
+  const CACHE_KEY='nanxi_posts_cache', CACHE_TTL=10*60*1000;
+  try{
+    const c=JSON.parse(localStorage.getItem(CACHE_KEY)||'null');
+    if(c && Date.now()-c.t<CACHE_TTL){ POSTS=c.d; renderAll(); return; }
+  }catch(e){}
+  try{
+    const list=await fetch('https://api.github.com/repos/sen1994lin/nanxi-blog/contents/posts').then(r=>r.json());
+    if(!Array.isArray(list)) throw new Error('not array');
+    const urls=list.filter(f=>f.name.endsWith('.json') && f.name!=='posts.json').map(f=>f.download_url);
+    const all=await Promise.all(urls.map(u=>fetch(u).then(r=>r.json())));
+    all.sort((a,b)=> new Date(b.date||0)-new Date(a.date||0));
+    POSTS=all;
+    try{ localStorage.setItem(CACHE_KEY, JSON.stringify({t:Date.now(), d:all})); }catch(e){}
     renderAll();
-  })
-  .catch(()=>{});
+  }catch(e){
+    // 兜底：旧的合并文件
+    try{
+      const j=await fetch('posts.json').then(r=>r.json());
+      const arr=(j&&Array.isArray(j.posts))?j.posts:(Array.isArray(j)?j:null);
+      if(arr&&arr.length){ POSTS=arr; renderAll(); }
+    }catch(_){}
+  }
+}
 </script>
 <!-- Netlify Identity 组件：用于处理 #recovery_token / #invite_token 等登录重置链接 -->
 <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
