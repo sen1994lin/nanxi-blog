@@ -450,22 +450,34 @@ function toggleTheme(){
 }
 
 /* ============ 菜单 ============ */
+function menuLink(it){
+  if(!it) return '';
+  if(it.link) return it.link;                 // 兼容旧格式
+  const t = it.type;
+  if(!t) return '';
+  if(t==='url') return it.target||'#';
+  if(t==='mailto') return 'mailto:'+(it.target||'');
+  if(t==='post') return 'post:'+(it.target||'0');
+  return t;                                    // home/tech/... 直接作为跳转值
+}
 function renderTopMenu(){
   const m = $('topmenu');
   m.innerHTML = (CONFIG.menus||[]).map(it=>{
+    const link = menuLink(it);
     if(it.children&&it.children.length){
-      return `<div><button class="${isActive(it.link)?'active':''}" onclick="menuAction('${escAttr(it.link)}')">${escHtml(it.title)} ▾</button>
+      return `<div><button class="${isActive(link)?'active':''}" onclick="menuAction('${escAttr(link)}')">${escHtml(it.title)} ▾</button>
         <div class="dropdown">${it.children.map(c=>renderSub(c)).join('')}</div></div>`;
     }
-    return `<a href="javascript:void(0)"><button class="${isActive(it.link)?'active':''}" onclick="menuAction('${escAttr(it.link)}')">${escHtml(it.title)}</button></a>`;
+    return `<a href="javascript:void(0)"><button class="${isActive(link)?'active':''}" onclick="menuAction('${escAttr(link)}')">${escHtml(it.title)}</button></a>`;
   }).join('');
 }
 function renderSub(it){
+  const link = menuLink(it);
   if(it.children&&it.children.length){
-    return `<div class="sub"><a href="javascript:void(0)" onclick="menuAction('${escAttr(it.link)}')">${escHtml(it.title)} ▸</a>
+    return `<div class="sub"><a href="javascript:void(0)" onclick="menuAction('${escAttr(link)}')">${escHtml(it.title)} ▸</a>
       <div class="dropdown">${it.children.map(renderSub).join('')}</div></div>`;
   }
-  return `<a href="javascript:void(0)" onclick="menuAction('${escAttr(it.link)}')">${escHtml(it.title)}</a>`;
+  return `<a href="javascript:void(0)" onclick="menuAction('${escAttr(link)}')">${escHtml(it.title)}</a>`;
 }
 function isActive(link){
   const map={home:'home',tech:'tech',life:'life',mind:'mind',gallery:'gallery',board:'board',resume:'resume',links:'links',about:'about'};
@@ -474,11 +486,12 @@ function isActive(link){
 function renderDrawer(){
   const d = $('drawerMenu');
   d.innerHTML = (CONFIG.menus||[]).map(it=>{
+    const link = menuLink(it);
     if(it.children&&it.children.length){
-      return `<div class="d-item has-children" onclick="menuAction('${escAttr(it.link)}')">${escHtml(it.title)}</div>
-        <div class="d-sub">${it.children.map(c=>`<div class="d-item" onclick="menuAction('${escAttr(c.link)}')">${escHtml(c.title)}</div>`).join('')}</div>`;
+      return `<div class="d-item has-children" onclick="menuAction('${escAttr(link)}')">${escHtml(it.title)}</div>
+        <div class="d-sub">${it.children.map(c=>`<div class="d-item" onclick="menuAction('${escAttr(menuLink(c))}')">${escHtml(c.title)}</div>`).join('')}</div>`;
     }
-    return `<div class="d-item" onclick="menuAction('${escAttr(it.link)}')">${escHtml(it.title)}</div>`;
+    return `<div class="d-item" onclick="menuAction('${escAttr(link)}')">${escHtml(it.title)}</div>`;
   }).join('');
 }
 function openDrawer(){$('drawer').classList.add('open');$('drawerMask').style.display='block';}

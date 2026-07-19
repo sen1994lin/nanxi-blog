@@ -119,26 +119,93 @@ collections:
             widget: list
             summary: "{{fields.title}}"
             fields:
-              - { name: title,   label: "菜单名", widget: string }
-              - { name: link,    label: "链接(home/tech/life/mind/gallery/board/resume/links/about/post:ID/网址/mailto:)", widget: string }
+              - { name: title,   label: "菜单名称", widget: string }
+              - name: type
+                label: "点击后去哪"
+                widget: select
+                options:
+                  - { label: "首页", value: "home" }
+                  - { label: "技术文章", value: "tech" }
+                  - { label: "生活随笔", value: "life" }
+                  - { label: "随想感悟", value: "mind" }
+                  - { label: "相册", value: "gallery" }
+                  - { label: "留言墙", value: "board" }
+                  - { label: "我的简历", value: "resume" }
+                  - { label: "友情链接", value: "links" }
+                  - { label: "关于我", value: "about" }
+                  - { label: "打开某篇文章", value: "post" }
+                  - { label: "自定义网址(新窗口打开)", value: "url" }
+                  - { label: "发邮件给我", value: "mailto" }
+              - { name: target, label: "目标值(按需填写)", widget: string, hint: "选了「打开某篇文章」→填文章ID数字；选了「自定义网址」→填 https://... ；选了「发邮件」→填邮箱地址；其他选项留空即可" }
               - name: children
-                label: "子菜单(二级)"
+                label: "二级菜单(留空则不显示)"
                 widget: list
+                summary: "{{fields.title}}"
                 fields:
-                  - { name: title,   label: "菜单名", widget: string }
-                  - { name: link,    label: "链接", widget: string }
+                  - { name: title,   label: "菜单名称", widget: string }
+                  - name: type
+                    label: "点击后去哪"
+                    widget: select
+                    options:
+                      - { label: "首页", value: "home" }
+                      - { label: "技术文章", value: "tech" }
+                      - { label: "生活随笔", value: "life" }
+                      - { label: "随想感悟", value: "mind" }
+                      - { label: "相册", value: "gallery" }
+                      - { label: "留言墙", value: "board" }
+                      - { label: "我的简历", value: "resume" }
+                      - { label: "友情链接", value: "links" }
+                      - { label: "关于我", value: "about" }
+                      - { label: "打开某篇文章", value: "post" }
+                      - { label: "自定义网址(新窗口打开)", value: "url" }
+                      - { label: "发邮件给我", value: "mailto" }
+                  - { name: target, label: "目标值(按需填写)", widget: string, hint: "选了「打开某篇文章」→填文章ID数字；选了「自定义网址」→填 https://... ；选了「发邮件」→填邮箱地址；其他选项留空" }
                   - name: children
-                    label: "子菜单(三级)"
+                    label: "三级菜单(留空则不显示)"
                     widget: list
+                    summary: "{{fields.title}}"
                     fields:
-                      - { name: title,   label: "菜单名", widget: string }
-                      - { name: link,    label: "链接", widget: string }
+                      - { name: title,   label: "菜单名称", widget: string }
+                      - name: type
+                        label: "点击后去哪"
+                        widget: select
+                        options:
+                          - { label: "首页", value: "home" }
+                          - { label: "技术文章", value: "tech" }
+                          - { label: "生活随笔", value: "life" }
+                          - { label: "随想感悟", value: "mind" }
+                          - { label: "相册", value: "gallery" }
+                          - { label: "留言墙", value: "board" }
+                          - { label: "我的简历", value: "resume" }
+                          - { label: "友情链接", value: "links" }
+                          - { label: "关于我", value: "about" }
+                          - { label: "打开某篇文章", value: "post" }
+                          - { label: "自定义网址(新窗口打开)", value: "url" }
+                          - { label: "发邮件给我", value: "mailto" }
+                      - { name: target, label: "目标值(按需填写)", widget: string, hint: "选了「打开某篇文章」→填文章ID数字；选了「自定义网址」→填 https://... ；选了「发邮件」→填邮箱地址；其他选项留空" }
                       - name: children
-                        label: "子菜单(四级)"
+                        label: "四级菜单(留空则不显示)"
                         widget: list
+                        summary: "{{fields.title}}"
                         fields:
-                          - { name: title, label: "菜单名", widget: string }
-                          - { name: link,  label: "链接", widget: string }
+                          - { name: title,   label: "菜单名称", widget: string }
+                          - name: type
+                            label: "点击后去哪"
+                            widget: select
+                            options:
+                              - { label: "首页", value: "home" }
+                              - { label: "技术文章", value: "tech" }
+                              - { label: "生活随笔", value: "life" }
+                              - { label: "随想感悟", value: "mind" }
+                              - { label: "相册", value: "gallery" }
+                              - { label: "留言墙", value: "board" }
+                              - { label: "我的简历", value: "resume" }
+                              - { label: "友情链接", value: "links" }
+                              - { label: "关于我", value: "about" }
+                              - { label: "打开某篇文章", value: "post" }
+                              - { label: "自定义网址(新窗口打开)", value: "url" }
+                              - { label: "发邮件给我", value: "mailto" }
+                          - { name: target, label: "目标值(按需填写)", widget: string, hint: "选了「打开某篇文章」→填文章ID数字；选了「自定义网址」→填 https://... ；选了「发邮件」→填邮箱地址；其他选项留空" }
 
   - name: "posts"
     label: "文章管理"

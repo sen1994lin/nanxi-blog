@@ -54,17 +54,17 @@
   "reward": { "wechat": "", "alipay": "", "note": "你的支持是我继续写下去的动力～" },
   "seo": { "title": "南曦笔话", "description": "技术笔记、生活随笔与随想。", "image": "" },
   "menus": [
-    { "title": "首页", "link": "home" },
-    { "title": "技术", "link": "tech" },
-    { "title": "生活", "link": "life" },
-    { "title": "随想", "link": "mind" },
-    { "title": "相册", "link": "gallery" },
-    { "title": "留言墙", "link": "board" },
-    { "title": "简历", "link": "resume" },
-    { "title": "友链", "link": "links" },
-    { "title": "关于", "link": "about", "children": [
-        { "title": "联系我", "link": "mailto:your@email.com" },
-        { "title": "我的 GitHub", "link": "#" }
+    { "title": "首页", "type": "home", "target": "" },
+    { "title": "技术", "type": "tech", "target": "" },
+    { "title": "生活", "type": "life", "target": "" },
+    { "title": "随想", "type": "mind", "target": "" },
+    { "title": "相册", "type": "gallery", "target": "" },
+    { "title": "留言墙", "type": "board", "target": "" },
+    { "title": "简历", "type": "resume", "target": "" },
+    { "title": "友链", "type": "links", "target": "" },
+    { "title": "关于", "type": "about", "target": "", "children": [
+        { "title": "联系我", "type": "mailto", "target": "your@email.com" },
+        { "title": "我的 GitHub", "type": "url", "target": "#" }
     ]}
   ]
 }
