@@ -4,39 +4,30 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>南曦笔话 · 后台管理</title>
-  <!-- 防止英文闪烁：先隐藏工具栏，等翻译完再显示 -->
-  <style>
-    .cms-toolbar { visibility: hidden; }
-    .cms-toolbar.translated { visibility: visible; }
-  </style>
 </head>
 <body>
-  <!-- Decap CMS（原 Netlify CMS）编辑器本体，本地托管 -->
+  <!-- Decap CMS 编辑器本体（本地托管） -->
   <script src="./vendor/decap-cms.js"></script>
 
-  <!-- 全中文化补丁：覆盖 Decap CMS 内置未翻译的英文界面文字 -->
+  <!-- 界面全中文化补丁（安全版：不干预 CMS 内部 DOM，只做纯文本替换） -->
   <script>
   (function(){
+    // 中英对照表
     var MAP = {
-      /* ====== 工具栏 / 顶部 ====== */
       'Writing in':              '正在编辑',
       'collection':              '',
       'Publish':                 '发布',
       'Publish button':          '点击发布文章',
-      'UNSAVED CHANGES':         '⚠️ 有修改未保存！',
-
-      /* ====== 侧边栏 ====== */
+      'UNSAVED CHANGES':         '\u26A0\uFE0F 有修改未保存！',
       'Collections':             '内容管理',
       'Search':                  '搜索…',
       'New':                     '新增',
-
-      /* ====== 编辑器 ====== */
       'Delete':                  '删除',
       'Delete entry':            '确认删除这条内容？',
       'Deleted':                 '已删除',
       'Cancel':                  '取消',
       'Save':                    '保存',
-      'Saved':                   '✅ 已保存',
+      'Saved':                   '\u2705 已保存',
       'Saving':                  '保存中…',
       'Draft':                   '草稿',
       'Published':               '已发布',
@@ -44,8 +35,6 @@
       'Publish and exit editor': '发布并退出编辑',
       'Delete this entry?':      '确定要删除这条内容吗？此操作无法撤销。',
       'This change has not been saved': '当前修改尚未保存，离开将丢失数据。',
-
-      /* ====== 列表 ====== */
       'No entries found':        '暂无内容，点「新增」来创建第一条吧～',
       'of':                      '/',
       'entries':                 '条',
@@ -53,8 +42,6 @@
       'Filter':                  '筛选',
       'Sort by':                 '排序方式',
       'Search entries':          '搜索内容…',
-
-      /* ====== 媒体库 ====== */
       'Media':                   '媒体库',
       'Upload a new file':       '上传文件',
       'Upload new':              '上传新文件',
@@ -68,8 +55,6 @@
       'Size':                    '大小',
       'Type':                    '类型',
       'URL':                     '地址',
-
-      /* ====== 登录 ====== */
       'Login':                   '登录',
       'Logging in':              '登录中…',
       'Logout':                  '登出',
@@ -78,8 +63,6 @@
       'Log in':                  '登录',
       'Log out':                 '登出',
       'Forgot password':         '忘记密码？',
-
-      /* ====== 通用 ====== */
       'Loading':                 '加载中…',
       'Error':                   '错误',
       'An error occurred':       '出错了',
@@ -120,61 +103,52 @@
       'Copy URL':                '复制链接',
       'Copied!':                 '已复制！',
       'Open in new tab':         '新窗口打开',
+      "There's been an error":   '出错了',
+      'please open an issue on GitHub': '',
+      'Opening an issue pre-populates it with the error message and debugging data.': '',
+      'Please verify the information is correct and remove sensitive data if exists.': '',
+      'Details':                 '详细信息',
     };
 
-    function translateNode(node) {
-      if (!node || !node.textContent) return;
-      var text = node.textContent.trim();
-      if (MAP[text] !== undefined && MAP[text] !== '') {
-        node.textContent = MAP[text];
-      }
-    }
-
-    function walk(root) {
-      var walker = document.createTreeWalker(
-        root,
-        NodeFilter.SHOW_TEXT | NodeFilter.SHOW_ELEMENT,
-        null, false
-      );
-      while (walker.nextNode()) {
-        if (walker.currentNode.nodeType === 3) {
-          var t = walker.currentNode.textContent.trim();
-          if (MAP[t] !== undefined && MAP[t] !== '') {
-            walker.currentNode.textContent = MAP[t];
-          }
-        } else if (walker.currentNode.nodeType === 1) {
-          translateNode(walker.currentNode);
+    // 安全翻译：只替换叶子文本节点的完整匹配，不碰 DOM 结构
+    function safeTranslate() {
+      try {
+        var texts = document.querySelectorAll(
+          'span, button, label, h1, h2, h3, h4, p, div, li, a, th, td, legend, option, strong, em'
+        );
+        for (var i = 0; i < texts.length; i++) {
+          var el = texts[i];
+          if (el.childNodes.length !== 1) continue;
+          var cn = el.childNodes[0];
+          if (cn.nodeType !== 3) continue;
+          var t = cn.textContent.trim();
+          if (MAP[t] === undefined || MAP[t] === '') continue;
+          cn.textContent = MAP[t];
         }
+      } catch(e) { /* 静默忽略 */ }
+    }
+
+    // 用 requestIdleCallback 在浏览器空闲时翻译，避免跟 CMS 抢占
+    function schedule() {
+      if (window.requestIdleCallback) {
+        window.requestIdleCallback(safeTranslate, { timeout: 2000 });
+      } else {
+        setTimeout(safeTranslate, 100);
       }
     }
 
-    function translateAll() {
-      walk(document.body);
-      // 标记工具栏已翻译（解除隐藏）
-      var tb = document.querySelector('.cms-toolbar');
-      if (tb) tb.classList.add('translated');
-    }
-
-    // 等待 CMS 加载完成后翻译，并持续监听动态变化
-    function init() {
-      translateAll();
-      // 监听 SPA 路由变化和动态渲染
-      var observer = new MutationObserver(function(mutations) {
-        translateAll();
-      });
-      observer.observe(document.body || document.documentElement, { childList: true, subtree: true, characterData: true });
-
-      // 定时兜底：每2秒扫一遍，防止漏网
-      setInterval(translateAll, 2000);
-    }
-
-    // 多种触发时机确保覆盖
+    // 启动后立即执行一次，之后每3秒兜底扫描一次
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', init);
+      document.addEventListener('DOMContentLoaded', schedule);
     } else {
-      init();
+      schedule();
     }
-    window.addEventListener('load', function() { setTimeout(translateAll, 500); });
+    window.addEventListener('load', function() { setTimeout(schedule, 800); });
+    setInterval(schedule, 3000);
+
+    // 只监听子节点增减（不监听 characterData），避免干扰 CMS 的文本输入
+    var obs = new MutationObserver(function() { schedule(); });
+    obs.observe(document.documentElement, { childList: true, subtree: true });
   })();
   </script>
 </body>
