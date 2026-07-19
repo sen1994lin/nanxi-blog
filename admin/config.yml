@@ -215,6 +215,7 @@ collections:
     label: "文章管理"
     label_singular: "文章"
     folder: "posts"
+    extension: "json"
     create: true
     slug: "{{fields.id}}"
     summary: "{{fields.title}}（{{fields.cat}}）"
