@@ -9,18 +9,18 @@
   <!-- Decap CMS 编辑器本体（本地托管） -->
   <script src="./vendor/decap-cms.js"></script>
 
-  <!-- 界面全中文化补丁（安全版：不干预 CMS 内部 DOM，只做纯文本替换） -->
+  <!-- 界面全中文化补丁 v3：精确匹配 + 正则替换 + 安全执行 -->
   <script>
   (function(){
-    // 中英对照表
-    var MAP = {
+    // ========== 第一部分：完整字符串精确匹配 ==========
+    var EXACT = {
       'Writing in':              '正在编辑',
       'collection':              '',
       'Publish':                 '发布',
       'Publish button':          '点击发布文章',
       'UNSAVED CHANGES':         '\u26A0\uFE0F 有修改未保存！',
       'Collections':             '内容管理',
-      'Search':                  '搜索…',
+      'Search':                  '搜索\u2026',
       'New':                     '新增',
       'Delete':                  '删除',
       'Delete entry':            '确认删除这条内容？',
@@ -28,125 +28,194 @@
       'Cancel':                  '取消',
       'Save':                    '保存',
       'Saved':                   '\u2705 已保存',
-      'Saving':                  '保存中…',
+      'Saving':                  '保存中\u2026',
       'Draft':                   '草稿',
       'Published':               '已发布',
-      'Publishing':              '发布中…',
+      'Publishing':              '发布中\u2026',
       'Publish and exit editor': '发布并退出编辑',
-      'Delete this entry?':      '确定要删除这条内容吗？此操作无法撤销。',
-      'This change has not been saved': '当前修改尚未保存，离开将丢失数据。',
-      'No entries found':        '暂无内容，点「新增」来创建第一条吧～',
+      'Delete this entry?':      '\u786E\u5B9A\u8981\u5220\u9664\u8FD9\u6761\u5185\u5BB9\u5417？\u6B64\u64CD\u4F5C\u65E0\u6CD5\u64A4\u9500。',
+      'This change has not been saved': '\u5F53\u524D\u4FEE\u6539\u5C1A\u672A\u4FDD\u5B58\uff0C\u79BB\u5F00\u5C06\u4E22\u5931\u6570\u636E\u3002',
+      'No entries found':        '\u6682\u65E0\u5185\u5BB9\uff0C\u70B9\u300C\u65B0\u589E\u300D\u6765\u521B\u5EFA\u7B2C\u4E00\u6761\u5427～',
       'of':                      '/',
-      'entries':                 '条',
-      'entry':                   '条',
-      'Filter':                  '筛选',
-      'Sort by':                 '排序方式',
-      'Search entries':          '搜索内容…',
-      'Media':                   '媒体库',
-      'Upload a new file':       '上传文件',
-      'Upload new':              '上传新文件',
-      'Drop files here':         '拖拽文件到此处上传',
-      'or':                      '或',
-      'click here':              '点这里选择文件',
-      'Insert image':            '插入图片',
-      'Insert':                  '插入',
-      'Close':                   '关闭',
-      'File name':               '文件名',
-      'Size':                    '大小',
-      'Type':                    '类型',
-      'URL':                     '地址',
-      'Login':                   '登录',
-      'Logging in':              '登录中…',
-      'Logout':                  '登出',
-      'Email':                   '邮箱地址',
-      'Password':                '密码',
-      'Log in':                  '登录',
-      'Log out':                 '登出',
-      'Forgot password':         '忘记密码？',
-      'Loading':                 '加载中…',
-      'Error':                   '错误',
-      'An error occurred':       '出错了',
-      'Please try again later':  '请稍后再试',
-      'Back':                    '返回',
-      'Next':                    '下一步',
-      'Previous':                '上一步',
-      'Done':                    '完成',
-      'Edit':                    '编辑',
-      'View':                    '查看',
-      'Settings':                '设置',
-      'Name':                    '名称',
-      'Title':                   '标题',
-      'Description':             '描述',
-      'Date':                    '日期',
-      'Author':                  '作者',
-      'Slug':                    '链接别名',
-      'Path':                    '路径',
-      'Body':                    '正文',
-      'Content':                 '内容',
-      'Field':                   '字段',
-      'Value':                   '值',
-      'Add':                     '添加',
-      'Remove':                  '移除',
-      'Move up':                 '上移',
-      'Move down':               '下移',
-      'No results':              '没有找到结果',
-      'Are you sure you want':   '确定要',
-      'Confirm':                 '确认',
-      'OK':                      '确定',
-      'Yes':                     '是',
-      'No':                      '否',
-      'None':                    '无',
-      'All':                     '全部',
-      'Default':                 '默认',
-      'Custom':                  '自定义',
-      'More actions':            '更多操作',
-      'Copy URL':                '复制链接',
-      'Copied!':                 '已复制！',
-      'Open in new tab':         '新窗口打开',
-      "There's been an error":   '出错了',
+      'entries':                 '\u6761',
+      'entry':                   '\u6761',
+      'Filter':                  '\u7B5B\u9009',
+      'Sort by':                 '\u6392\u5E8F\u65B9\u5F0F',
+      'Search entries':          '\u641C\u7D22\u5185\u5BB9\u2026',
+      'Media':                   '\u5A92\u4F53\u5E93',
+      'Upload a new file':       '\u4E0A\u4F20\u6587\u4EF6',
+      'Upload new':              '\u4E0A\u4F20\u65B0\u6587\u4EF6',
+      'Drop files here':         '\u62D6\u62FD\u6587\u4EF6\u5230\u6B64\u5904\u4E0A\u4F20',
+      'or':                      '\u6216',
+      'click here':              '\u70B9\u8FD9\u91CC\u9009\u62E9\u6587\u4EF6',
+      'Insert image':            '\u63D2\u5165\u56FE\u7247',
+      'Insert':                  '\u63D2\u5165',
+      'Close':                   '\u5173\u95ED',
+      'File name':               '\u6587\u4EF6\u540D',
+      'Size':                    '\u5927\u5C0F',
+      'Type':                    '\u7C7B\u578B',
+      'URL':                     '\u5730\u5740',
+      'Login':                   '\u767B\u5F55',
+      'Logging in':              '\u767B\u5F55\u4E2D\u2026',
+      'Logout':                  '\u767B\u51FA',
+      'Email':                   '\u90AE\u7BB1\u5730\u5740',
+      'Password':                '\u5BC6\u7801',
+      'Log in':                  '\u767B\u5F55',
+      'Log out':                 '\u767B\u51FA',
+      'Forgot password':         '\u5FD8\u8BB0\u5BC6\u7801\uFF1F',
+      'Loading':                 '\u52A0\u8F7D\u4E2D\u2026',
+      'Error':                   '\u9519\u8BEF',
+      'An error occurred':       '\u51FA\u9519\u4E86',
+      'Please try again later':  '\u8BF7\u7A0D\u540E\u518D\u8BD5',
+      'Back':                    '\u8FD4\u56DE',
+      'Next':                    '\u4E0B\u4E00\u6B65',
+      'Previous':                '\u4E0A\u4E00\u6B65',
+      'Done':                    '\u5B8C\u6210',
+      'Edit':                    '\u7F16\u8F91',
+      'View':                    '\u67E5\u770B',
+      'Settings':                '\u8BBE\u7F6E',
+      'Name':                    '\u540D\u79F0',
+      'Title':                   '\u6807\u9898',
+      'Description':             '\u63CF\u8FF0',
+      'Date':                    '\u65E5\u671F',
+      'Author':                  '\u4F5C\u8005',
+      'Slug':                    '\u94FE\u63A5\u522B\u540D',
+      'Path':                    '\u8DEF\u5F84',
+      'Body':                    '\u6B63\u6587',
+      'Content':                 '\u5185\u5BB9',
+      'Field':                   '\u5B57\u6BB5',
+      'Value':                   '\u503C',
+      'Add':                     '\u6DFB\u52A0',
+      'Remove':                  '\u79FB\u9664',
+      'Move up':                 '\u4E0A\u79FB',
+      'Move down':               '\u4E0B\u79FB',
+      'No results':              '\u6CA1\u6709\u627E\u5230\u7ED3\u679C',
+      'Are you sure you want':   '\u786E\u5B9A\u8981',
+      'Confirm':                 '\u786E\u8BA4',
+      'OK':                      '\u786E\u5B9A',
+      'Yes':                     '\u662F',
+      'No':                      '\u5426',
+      'None':                    '\u65E0',
+      'All':                     '\u5168\u90E8',
+      'Default':                 '\u9ED8\u8BA4',
+      'Custom':                  '\u81EA\u5B9A\u4E49',
+      'More actions':            '\u66F4\u591A\u64CD\u4F5C',
+      'Copy URL':                '\u590D\u5236\u94FE\u63A5',
+      'Copied!':                 '\u5DF2\u590D\u5236\uFF01',
+      'Open in new tab':         '\u65B0\u7A97\u53E3\u6253\u5F00',
+      "There's been an error":   '\u51FA\u9519\u4E86',
       'please open an issue on GitHub': '',
       'Opening an issue pre-populates it with the error message and debugging data.': '',
       'Please verify the information is correct and remove sensitive data if exists.': '',
-      'Details':                 '详细信息',
+      'Details':                 '\u8BE6\u7EC6\u4FE1\u606F',
+
+      // 发布下拉菜单项
+      'Publish now':             '\u73B0\u5728\u53D1\u5E03',
+      'Publish and create new':  '\u53D1\u5E03\u5E76\u521B\u5EFA\u65B0\u7BC7',
+      'Publish and duplicate':    '\u53D1\u5E03\u5E76\u590D\u5236',
+
+      // 日期选择器
+      'Now':                     '\u4ECA\u5929',
+      'Clear':                   '\u6E05\u7A7A',
+
+      // 校验消息
+      'is required':             '\u662F\u5FC5\u586B\u9879\u54C9',
     };
 
-    // 安全翻译：只替换叶子文本节点的完整匹配，不碰 DOM 结构
-    function safeTranslate() {
+    // ========== 第二部分：DOM 树安全遍历翻译 ==========
+    function translateLeafNodes() {
       try {
-        var texts = document.querySelectorAll(
-          'span, button, label, h1, h2, h3, h4, p, div, li, a, th, td, legend, option, strong, em'
+        var nodes = document.querySelectorAll(
+          'span,button,label,h1,h2,h3,h4,p,div,li,a,th,td,legend,option,strong,em'
         );
-        for (var i = 0; i < texts.length; i++) {
-          var el = texts[i];
+        for (var i = 0; i < nodes.length; i++) {
+          var el = nodes[i];
           if (el.childNodes.length !== 1) continue;
           var cn = el.childNodes[0];
           if (cn.nodeType !== 3) continue;
           var t = cn.textContent.trim();
-          if (MAP[t] === undefined || MAP[t] === '') continue;
-          cn.textContent = MAP[t];
+          if (EXACT[t] !== undefined && EXACT[t] !== '') {
+            cn.textContent = EXACT[t];
+          }
         }
-      } catch(e) { /* 静默忽略 */ }
+      } catch(e) {}
     }
 
-    // 用 requestIdleCallback 在浏览器空闲时翻译，避免跟 CMS 抢占
+    // ========== 第三部分：正则替换动态拼接文本 ==========
+    function replacePatterns() {
+      try {
+        var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
+        var nodes = [];
+        while (walker.nextNode()) nodes.push(walker.currentNode);
+
+        for (var j = 0; j < nodes.length; j++) {
+          var n = nodes[j];
+          if (!n.textContent || !n.parentElement) continue;
+          // 跳过 textarea/input 等可编辑区域
+          var tag = n.parentElement.tagName;
+          if (tag === 'TEXTAREA' || tag === 'INPUT' || tag === 'SCRIPT' || tag === 'STYLE') continue;
+
+          var txt = n.nodeValue;
+          var changed = false;
+
+          // "xxx is required" → "xxx 是必填项哦"
+          if (/ is required$/.test(txt)) {
+            n.nodeValue = txt.replace(/ is required$/, ' \u662F\u5FC5\u586B\u9879\u54C9');
+            changed = true;
+          }
+
+          // "Writing in xxx collection" → "正在编辑 xxx"
+          if (/^Writing in /.test(txt)) {
+            n.nodeValue = txt.replace(/^Writing in (.+) collection/, '\u6B63\u5728\u7F16\u8F91 $1');
+            changed = true;
+          }
+
+          // 单独的 "collection" 残留
+          if (txt.trim() === 'collection' && n.parentElement.childNodes.length <= 2) {
+            n.nodeValue = '';
+            changed = true;
+          }
+
+          // "Publish now" 等可能在更深层节点
+          if (txt.trim() === 'Publish now') { n.nodeValue = '\u73B0\u5728\u53D1\u5E03'; changed = true; }
+          if (txt.trim() === 'Publish and create new') { n.nodeValue = '\u53D1\u5E03\u5E76\u521B\u5EFA\u65B0\u7BC7'; changed = true; }
+          if (txt.trim() === 'Publish and duplicate') { n.nodeValue = '\u53D1\u5E03\u5E76\u590D\u5236'; changed = true; }
+          if (txt.trim() === 'Now' && tag !== 'OPTION') { n.nodeValue = '\u4ECA\u5929'; changed = true; }
+          if (txt.trim() === 'Clear') { n.nodeValue = '\u6E05\u7A7A'; changed = true; }
+
+          // "Add" 在按钮里（标签添加等）
+          if (txt.trim() === 'Add' && (tag === 'BUTTON' || tag === 'SPAN')) {
+            // 只替换独立的 "Add"，不替换 "Add another" 等
+            n.nodeValue = '\u6DFB\u52A0';
+            changed = true;
+          }
+        }
+      } catch(e) {}
+    }
+
+    // 统一调度
+    function doTranslate() {
+      translateLeafNodes();
+      replacePatterns();
+    }
+
     function schedule() {
       if (window.requestIdleCallback) {
-        window.requestIdleCallback(safeTranslate, { timeout: 2000 });
+        window.requestIdleCallback(doTranslate, { timeout: 2000 });
       } else {
-        setTimeout(safeTranslate, 100);
+        setTimeout(doTranslate, 100);
       }
     }
 
-    // 启动后立即执行一次，之后每3秒兜底扫描一次
+    // 启动
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', schedule);
     } else {
       schedule();
     }
-    window.addEventListener('load', function() { setTimeout(schedule, 800); });
-    setInterval(schedule, 3000);
+    window.addEventListener('load', function() { setTimeout(schedule, 1000); });
+    setInterval(schedule, 4000);
 
-    // 只监听子节点增减（不监听 characterData），避免干扰 CMS 的文本输入
     var obs = new MutationObserver(function() { schedule(); });
     obs.observe(document.documentElement, { childList: true, subtree: true });
   })();
