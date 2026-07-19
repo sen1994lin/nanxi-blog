@@ -1,70 +1,240 @@
 {
-  "siteName": "南曦笔话",
-  "logoText": "南",
-  "authorName": "南曦",
-  "tagline": "你好，欢迎来到我的小角落 —— 这里记录技术、生活与随想。",
-  "about": [
-    "我是一名软件测试工程师，喜欢把复杂的东西讲简单。",
-    "这个博客用来沉淀学习笔记、记录生活片段，也当作自己的成长档案。",
-    "如果你也喜欢慢下来认真生活，欢迎常来坐坐 ☕"
-  ],
-  "socials": [
-    { "label": "邮箱",   "url": "mailto:your@email.com" },
-    { "label": "GitHub", "url": "#" },
-    { "label": "微博",   "url": "#" }
+  "photos": [
+    {
+      "src": "",
+      "emoji": "🌅",
+      "caption": "晨光"
+    },
+    {
+      "src": "",
+      "emoji": "🍰",
+      "caption": "下午茶"
+    },
+    {
+      "src": "",
+      "emoji": "📚",
+      "caption": "书桌一角"
+    },
+    {
+      "src": "",
+      "emoji": "🌿",
+      "caption": "阳台绿植"
+    },
+    {
+      "src": "",
+      "emoji": "🐱",
+      "caption": "我家主子"
+    },
+    {
+      "src": "",
+      "emoji": "🌃",
+      "caption": "城市夜色"
+    }
   ],
   "media": [
-    { "name": "公众号", "icon": "💬", "url": "#", "desc": "南曦笔话" },
-    { "name": "微博",   "icon": "🐧", "url": "#", "desc": "@南曦" },
-    { "name": "小红书", "icon": "📕", "url": "#", "desc": "南曦" },
-    { "name": "B站",    "icon": "📺", "url": "#", "desc": "南曦的频道" },
-    { "name": "GitHub", "icon": "🐙", "url": "#", "desc": "nanxi" }
+    {
+      "name": "公众号",
+      "icon": "💬",
+      "url": "#",
+      "desc": "南曦笔话"
+    },
+    {
+      "name": "微博",
+      "icon": "🐧",
+      "url": "#",
+      "desc": "@南曦"
+    },
+    {
+      "name": "小红书",
+      "icon": "📕",
+      "url": "#",
+      "desc": "南曦"
+    },
+    {
+      "name": "B站",
+      "icon": "📺",
+      "url": "#",
+      "desc": "南曦的频道"
+    },
+    {
+      "name": "GitHub",
+      "icon": "🐙",
+      "url": "#",
+      "desc": "nanxi"
+    }
   ],
-  "photos": [
-    { "src": "", "emoji": "🌅", "caption": "晨光" },
-    { "src": "", "emoji": "🍰", "caption": "下午茶" },
-    { "src": "", "emoji": "📚", "caption": "书桌一角" },
-    { "src": "", "emoji": "🌿", "caption": "阳台绿植" },
-    { "src": "", "emoji": "🐱", "caption": "我家主子" },
-    { "src": "", "emoji": "🌃", "caption": "城市夜色" }
+  "socials": [
+    {
+      "label": "邮箱",
+      "url": "mailto:your@email.com"
+    },
+    {
+      "label": "GitHub",
+      "url": "#"
+    },
+    {
+      "label": "微博",
+      "url": "#"
+    }
   ],
-  "waline": { "serverURL": "", "pageview": true },
   "resume": {
     "headline": "南曦",
     "sub": "软件测试工程师 · 求职中",
     "summary": "3 年软件测试经验，擅长功能 / 接口 / 自动化测试，熟悉 Python 与测试工具链。做事细致，喜欢把问题想透。",
     "skills": [
-      { "group": "测试方向", "tags": ["功能测试", "接口测试", "自动化测试", "性能测试", "兼容性测试"] },
-      { "group": "工具链", "tags": ["Postman", "JMeter", "Selenium", "Pytest", "Fiddler", "Charles"] },
-      { "group": "语言/其它", "tags": ["Python", "SQL", "Linux", "Git", "Jira", "Confluence"] }
+      {
+        "group": "测试方向",
+        "tags": [
+          "功能测试",
+          "接口测试",
+          "自动化测试",
+          "性能测试",
+          "兼容性测试"
+        ]
+      },
+      {
+        "group": "工具链",
+        "tags": [
+          "Postman",
+          "JMeter",
+          "Selenium",
+          "Pytest",
+          "Fiddler",
+          "Charles"
+        ]
+      },
+      {
+        "group": "语言/其它",
+        "tags": [
+          "Python",
+          "SQL",
+          "Linux",
+          "Git",
+          "Jira",
+          "Confluence"
+        ]
+      }
     ],
     "experience": [
-      { "role": "测试工程师（外包）", "company": "面壁智能 ModelBest", "period": "2024 – 2026", "desc": "负责大模型相关产品的功能与接口测试，编写自动化用例，参与持续集成。" },
-      { "role": "测试工程师", "company": "某互联网公司", "period": "2021 – 2024", "desc": "负责核心业务线测试，搭建接口自动化框架，推动质量度量。" }
+      {
+        "role": "测试工程师（外包）",
+        "company": "面壁智能 ModelBest",
+        "period": "2024 – 2026",
+        "desc": "负责大模型相关产品的功能与接口测试，编写自动化用例，参与持续集成。"
+      },
+      {
+        "role": "测试工程师",
+        "company": "某互联网公司",
+        "period": "2021 – 2024",
+        "desc": "负责核心业务线测试，搭建接口自动化框架，推动质量度量。"
+      }
     ],
     "education": [
-      { "school": "某某大学", "major": "计算机科学与技术（本科）", "period": "2017 – 2021" }
+      {
+        "school": "某某大学",
+        "major": "计算机科学与技术（本科）",
+        "period": "2017 – 2021"
+      }
     ],
-    "certifications": ["ISTQB 基础级", "计算机等级二级（Python）"]
+    "certifications": [
+      "ISTQB 基础级",
+      "计算机等级二级（Python）"
+    ]
   },
-  "links": [
-    { "name": "WorkBuddy", "url": "https://www.codebuddy.cn", "desc": "我的 AI 助手", "avatar": "🤖" },
-    { "name": "示例友站", "url": "#", "desc": "一个有温度的小站", "avatar": "🌟" }
+  "about": [
+    "我是一名软件测试工程师，喜欢把复杂的东西讲简单。",
+    "这个博客用来沉淀学习笔记、记录生活片段，也当作自己的成长档案。",
+    "如果你也喜欢慢下来认真生活，欢迎常来坐坐 ☕"
   ],
-  "reward": { "wechat": "", "alipay": "", "note": "你的支持是我继续写下去的动力～" },
-  "seo": { "title": "南曦笔话", "description": "技术笔记、生活随笔与随想。", "image": "" },
+  "tagline": "你好，欢迎来到我的小角落 —— 这里记录技术、生活与随想。",
+  "reward": {
+    "wechat": "",
+    "alipay": "",
+    "note": "你的支持是我继续写下去的动力～"
+  },
+  "siteName": "南曦笔话",
   "menus": [
-    { "title": "首页", "type": "home", "target": "" },
-    { "title": "技术", "type": "tech", "target": "" },
-    { "title": "生活", "type": "life", "target": "" },
-    { "title": "随想", "type": "mind", "target": "" },
-    { "title": "相册", "type": "gallery", "target": "" },
-    { "title": "留言墙", "type": "board", "target": "" },
-    { "title": "简历", "type": "resume", "target": "" },
-    { "title": "友链", "type": "links", "target": "" },
-    { "title": "关于", "type": "about", "target": "", "children": [
-        { "title": "联系我", "type": "mailto", "target": "your@email.com" },
-        { "title": "我的 GitHub", "type": "url", "target": "#" }
-    ]}
-  ]
+    {
+      "title": "首页",
+      "type": "home",
+      "target": ""
+    },
+    {
+      "title": "技术",
+      "type": "tech",
+      "target": ""
+    },
+    {
+      "title": "生活",
+      "type": "life",
+      "target": ""
+    },
+    {
+      "title": "随想",
+      "type": "mind",
+      "target": ""
+    },
+    {
+      "title": "相册",
+      "type": "gallery",
+      "target": ""
+    },
+    {
+      "title": "留言墙",
+      "type": "board",
+      "target": ""
+    },
+    {
+      "title": "简历",
+      "type": "resume",
+      "target": ""
+    },
+    {
+      "title": "友链",
+      "type": "links",
+      "target": ""
+    },
+    {
+      "title": "关于",
+      "type": "about",
+      "target": "",
+      "children": [
+        {
+          "title": "联系我",
+          "type": "mailto",
+          "target": "your@email.com"
+        },
+        {
+          "title": "我的 GitHub",
+          "type": "url",
+          "target": "#"
+        }
+      ]
+    }
+  ],
+  "authorName": "南曦",
+  "logoText": "火",
+  "links": [
+    {
+      "name": "WorkBuddy",
+      "url": "https://www.codebuddy.cn",
+      "desc": "我的 AI 助手",
+      "avatar": "🤖"
+    },
+    {
+      "name": "示例友站",
+      "url": "#",
+      "desc": "一个有温度的小站",
+      "avatar": "🌟"
+    }
+  ],
+  "seo": {
+    "title": "南曦笔话",
+    "description": "技术笔记、生活随笔与随想。",
+    "image": ""
+  },
+  "waline": {
+    "serverURL": "",
+    "pageview": true
+  }
 }
