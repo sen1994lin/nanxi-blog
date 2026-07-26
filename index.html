@@ -669,7 +669,10 @@ function renderRelated(p){
 }
 
 function renderAbout(){
-  const paras = (CONFIG.about||[]).map(t=>`<p>${escHtml(String(t).replace('我的名字',CONFIG.authorName))}</p>`).join('');
+  const paras = (CONFIG.about||[]).map(t=>{
+    const raw = (t && typeof t==='object') ? (t.para!=null ? t.para : (t.text!=null ? t.text : '')) : (t||'');
+    return `<p>${escHtml(String(raw).replace('我的名字',CONFIG.authorName))}</p>`;
+  }).join('');
   const socials = (CONFIG.socials||[]).map(s=>`<a href="${escAttr(s.url)}" target="_blank" rel="noopener">${escHtml(s.label)}</a>`).join('');
   const media = (CONFIG.media||[]).map(m=>`<div class="media-card" onclick="if('${escAttr(m.url)}'!=='#')window.open('${escAttr(m.url)}','_blank')">
       <div class="ic">${escHtml(m.icon||'🔗')}</div><div class="nm">${escHtml(m.name)}</div><div class="ds">${escHtml(m.desc||'')}</div></div>`).join('');
