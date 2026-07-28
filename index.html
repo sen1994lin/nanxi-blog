@@ -196,10 +196,10 @@
   .r-block{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);margin-bottom:20px}
   .r-block h2{font-size:19px;margin:0 0 14px;display:flex;align-items:center;gap:8px}
   .r-block h2 .ic{color:var(--accent)}
-  .skill-group{margin-bottom:12px}
+  .skill-group{margin-bottom:14px}
   .skill-group .gn{font-weight:600;font-size:14px;margin-bottom:6px;color:var(--muted)}
-  .skill-tags{display:flex;gap:8px;flex-wrap:wrap}
-  .skill-tags span{background:var(--tag-bg);color:var(--tag-ink);padding:5px 12px;border-radius:999px;font-size:13px}
+  .skill-desc{margin-top:2px}
+  .skill-desc .sd{font-size:14px;line-height:1.7;margin:3px 0}
   .tl{position:relative;padding-left:22px}
   .tl::before{content:"";position:absolute;left:6px;top:4px;bottom:4px;width:2px;background:var(--line)}
   .tl .it{position:relative;margin-bottom:18px}
@@ -725,7 +725,7 @@ function renderResume(){
   const r = CONFIG.resume||{};
   const skills = (r.skills||[]).map(s=>`
     <div class="skill-group"><div class="gn">${escHtml(s.group)}</div>
-      <div class="skill-tags">${s.tags.map(t=>`<span>${escHtml(t)}</span>`).join('')}</div></div>`).join('');
+      <div class="skill-desc">${(s.items||[]).map(t=>`<div class="sd">${escHtml(t)}</div>`).join('')}</div></div>`).join('');
   const exp = (r.experience||[]).map(e=>`
     <div class="it"><div class="t">${escHtml(e.role)} · ${escHtml(e.company)}</div>
       <div class="m">${escHtml(e.period||'')}</div><div class="d">${escHtml(e.desc||'')}</div></div>`).join('');
