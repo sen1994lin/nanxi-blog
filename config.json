@@ -1,6 +1,16 @@
 {
   "photos": [
     {
+      "src": "images/gallery/wutai_routes.jpeg",
+      "emoji": "🚌",
+      "caption": "五台山公交导览图"
+    },
+    {
+      "src": "images/gallery/wutai_map.jpeg",
+      "emoji": "🗺️",
+      "caption": "五台山游览路线图"
+    },
+    {
       "src": "",
       "emoji": "🌅",
       "caption": "晨光"
