@@ -209,6 +209,14 @@
   .tl .it .d{font-size:14.5px;margin-top:4px}
   .cert-list{display:flex;gap:10px;flex-wrap:wrap}
   .cert-list span{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:8px 14px;font-size:14px}
+  .proj-list{display:flex;flex-direction:column;gap:18px}
+  .proj{border:1px solid var(--line);border-radius:12px;padding:16px 18px;background:var(--bg)}
+  .proj .p-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px}
+  .proj .p-name{font-weight:700;font-size:16px;color:var(--accent)}
+  .proj .p-period{color:var(--muted);font-size:13px;white-space:nowrap}
+  .proj .p-desc{font-size:14px;margin:8px 0 6px;line-height:1.7}
+  .proj .p-duties{margin:0;padding-left:20px}
+  .proj .p-duties li{font-size:13.5px;margin:3px 0;line-height:1.6}
 
   /* 友链 */
   .links-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
@@ -724,12 +732,19 @@ function renderResume(){
   const edu = (r.education||[]).map(e=>`
     <div class="it"><div class="t">${escHtml(e.school)}</div>
       <div class="m">${escHtml(e.major||'')} · ${escHtml(e.period||'')}</div></div>`).join('');
+  const proj = (r.projects||[]).map(p=>`
+    <div class="proj">
+      <div class="p-head"><div class="p-name">${escHtml(p.name||'')}</div><div class="p-period">${escHtml(p.period||'')}</div></div>
+      <div class="p-desc">${escHtml(p.desc||'')}</div>
+      <ul class="p-duties">${(p.duties||[]).map(d=>`<li>${escHtml(d)}</li>`).join('')}</ul>
+    </div>`).join('');
   const certs = (r.certifications||[]).map(c=>`<span>${escHtml(c)}</span>`).join('');
   $('app').innerHTML = `<div class="resume fade">
     <div class="r-head"><h1>${escHtml(r.headline||CONFIG.authorName)}</h1><div class="sub">${escHtml(r.sub||'')}</div></div>
     <p class="r-sum">${escHtml(r.summary||'')}</p>
     <div class="r-block"><h2><span class="ic">🛠</span>技能栈</h2>${skills}</div>
     <div class="r-block"><h2><span class="ic">💼</span>工作经历</h2><div class="tl">${exp}</div></div>
+    <div class="r-block"><h2><span class="ic">📂</span>项目经验</h2><div class="proj-list">${proj}</div></div>
     <div class="r-block"><h2><span class="ic">🎓</span>教育背景</h2><div class="tl">${edu}</div></div>
     <div class="r-block"><h2><span class="ic">🏅</span>证书</h2><div class="cert-list">${certs}</div>
       <div style="margin-top:16px"><button class="tool-btn" onclick="window.print()">📄 打印 / 存为 PDF</button></div></div>
