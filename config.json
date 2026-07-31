@@ -1,6 +1,11 @@
 {
   "photos": [
     {
+      "src": "images/gallery/selfie_july2025.png",
+      "emoji": "📸",
+      "caption": "夏日自拍"
+    },
+    {
       "src": "images/gallery/great_wall_xishuiyu.jpeg",
       "emoji": "🏯",
       "caption": "长城·西水峪关"
