@@ -1,6 +1,36 @@
 {
   "photos": [
     {
+      "src": "images/gallery/great_wall_xishuiyu.jpeg",
+      "emoji": "🏯",
+      "caption": "长城·西水峪关"
+    },
+    {
+      "src": "images/gallery/friend_heart_selfie.jpeg",
+      "emoji": "✌️",
+      "caption": "和好友比心自拍"
+    },
+    {
+      "src": "images/gallery/great_wall_selfie.jpeg",
+      "emoji": "🧗",
+      "caption": "登长城个人照"
+    },
+    {
+      "src": "images/gallery/night_street_selfie.jpeg",
+      "emoji": "🌙",
+      "caption": "夜晚街边自拍"
+    },
+    {
+      "src": "images/gallery/bbq_spring_festival.jpeg",
+      "emoji": "🍖",
+      "caption": "烤肉店新春合影"
+    },
+    {
+      "src": "images/gallery/dinner_thumbsup.jpeg",
+      "emoji": "👍",
+      "caption": "聚餐点赞时刻"
+    },
+    {
       "src": "images/gallery/wutai_routes.jpeg",
       "emoji": "🚌",
       "caption": "五台山公交导览图"
@@ -9,6 +39,36 @@
       "src": "images/gallery/wutai_map.jpeg",
       "emoji": "🗺️",
       "caption": "五台山游览路线图"
+    },
+    {
+      "src": "",
+      "emoji": "🌅",
+      "caption": "晨光"
+    },
+    {
+      "src": "",
+      "emoji": "🍰",
+      "caption": "下午茶"
+    },
+    {
+      "src": "",
+      "emoji": "📚",
+      "caption": "书桌一角"
+    },
+    {
+      "src": "",
+      "emoji": "🌿",
+      "caption": "阳台绿植"
+    },
+    {
+      "src": "",
+      "emoji": "🐱",
+      "caption": "我家主子"
+    },
+    {
+      "src": "",
+      "emoji": "🌃",
+      "caption": "城市夜色"
     }
   ],
   "media": [
