@@ -1,6 +1,16 @@
 {
   "photos": [
     {
+      "src": "images/gallery/jianziwan_stone.jpeg",
+      "emoji": "🏔️",
+      "caption": "剪子弯山观景台·海拔4200米"
+    },
+    {
+      "src": "images/gallery/jianziwan_flags.jpeg",
+      "emoji": "🙌",
+      "caption": "剪子弯山·经幡下的拥抱"
+    },
+    {
       "src": "images/gallery/selfie_july2025.png",
       "emoji": "📸",
       "caption": "夏日自拍"
