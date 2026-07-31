@@ -422,7 +422,7 @@
     "image": ""
   },
   "waline": {
-    "serverURL": "",
+    "serverURL": "https://waline1907.vercel.app",
     "pageview": true
   }
 }
