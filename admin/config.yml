@@ -46,13 +46,12 @@ collections:
               - { name: src,     label: "📷 上传图片（点这里选择电脑里的图片文件）", widget: image , required: false }
               - { name: emoji,    label: "占位图标（没放图时显示这个emoji）", widget: string , required: false }
               - { name: caption,  label: "图片说明文字", widget: string , required: false }
-          - name: waline
-            label: "评论系统（Waline）"
+          - name: twikoo
+            label: "评论系统（Twikoo）"
             widget: object
             collapsed: true
             fields:
-              - { name: serverURL, label: "评论服务地址（填了才开启评论功能）", widget: string , required: false }
-              - { name: pageview,  label: "是否显示阅读量统计", widget: boolean, default: true , required: false }
+              - { name: envId, label: "Twikoo 环境ID（填 Vercel 部署后的 https://xxx.vercel.app 地址才开启评论）", widget: string , required: false }
           - name: resume
             label: "个人简历 / 作品集"
             widget: object
