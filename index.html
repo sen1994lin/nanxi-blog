@@ -16,9 +16,8 @@
 <!-- 代码高亮（本地化） -->
 <link rel="stylesheet" href="vendor/highlight.github.min.css">
 <script src="vendor/highlight.min.js"></script>
-<!-- Waline 评论系统客户端（本地化，避免境外CDN；评论数据走 Vercel+MongoDB 服务端） -->
-<link rel="stylesheet" href="vendor/waline/waline.css">
-<script src="vendor/waline/waline.js"></script>
+<!-- Twikoo 评论系统客户端（本地化，避免境外CDN；评论数据走 Vercel+MongoDB 服务端） -->
+<script src="vendor/twikoo/twikoo.min.js"></script>
 <!-- 本机浏览量统计（纯本地, 免费, 无境外依赖） -->
 <script>
   document.addEventListener('DOMContentLoaded', function(){
@@ -369,8 +368,8 @@ const DEFAULT_CONFIG = {
     { src:"", emoji:"🐱", caption:"我家主子" },
     { src:"", emoji:"🌃", caption:"城市夜色" }
   ],
-  /* 评论（Waline：访客免登录、自动记录 IP 与归属地） */
-  waline: { serverURL:"", pageview:true },
+  /* 评论（Twikoo：访客免登录、自动记录 IP 与归属地） */
+  twikoo: { envId:"" },
   /* 简历 / 作品集 */
   resume: {
     headline:"南曦",
@@ -637,7 +636,7 @@ function openPost(id){
       <span class="cat-badge" style="background:${c.color}">${escHtml(c.name)}</span>
       <h1>${escHtml(p.title)}</h1>
       <div class="meta"><span>${escHtml(p.date)}</span><span class="dot"></span><span>${escHtml(CONFIG.authorName)}</span>
-        <span class="dot"></span><span class="pv">👁 <span class="waline-pageview" data-path="post-${p.id}">—</span></span></div>
+      </div>
       <div class="article-body">${md(p.content)}</div>
       <div class="article-tags">${tagChips(p)}</div>
       <div class="post-tools">
@@ -655,8 +654,7 @@ function openPost(id){
   buildTOC();
   renderRelated(p);
   if(window.hljs) document.querySelectorAll('.article-body pre code').forEach(b=>hljs.highlightElement(b));
-  loadWaline($('commentBox'), 'post-'+p.id);
-  if(CONFIG.waline.pageview && window.Waline) {/* handled by waline */}
+  loadTwikoo($('commentBox'), 'post-'+p.id);
 }
 
 function buildTOC(){
@@ -720,7 +718,7 @@ function closeLightbox(){$('lightbox').classList.remove('open');}
 function renderBoard(){
   $('app').innerHTML = `<div class="sec-title fade"><span class="bar"></span>留言墙</div>
     <section class="board fade"><div id="boardBox"></div></section>`;
-  loadWaline($('boardBox'),'guestbook');
+  loadTwikoo($('boardBox'),'guestbook');
   setMeta('留言墙 · '+CONFIG.siteName, CONFIG.tagline, CONFIG.seo?.image||'');
 }
 
@@ -765,18 +763,15 @@ function renderLinks(){
   setMeta('友链 · '+CONFIG.siteName, CONFIG.tagline, CONFIG.seo?.image||'');
 }
 
-/* ============ 评论（Waline） ============ */
-let walineInstance=null;
-function loadWaline(el, path){
+/* ============ 评论（Twikoo） ============ */
+function loadTwikoo(el, path){
   if(!el) return;
-  if(!CONFIG.waline || !CONFIG.waline.serverURL){
-    el.innerHTML = `<div class="notice">💡 <b>评论区已就绪，等你接上后端就能用。</b><br>按《后台使用与部署指南》「开启评论」一节，部署好 Waline 后端并填入「站点设置 → 评论设置」即可。访客免登录、自动记录 IP。</div>`;
+  if(!CONFIG.twikoo || !CONFIG.twikoo.envId){
+    el.innerHTML = `<div class="notice">💡 <b>评论区已就绪，等你接上后端就能用。</b><br>按《后台使用与部署指南》「开启评论」一节，部署好 Twikoo 后端并填入「站点设置 → 评论设置」即可。访客免登录、自动记录 IP。</div>`;
     return;
   }
   el.innerHTML='';
-  if(walineInstance && walineInstance.destroy) walineInstance.destroy();
-  walineInstance = Waline({ el, serverURL:CONFIG.waline.serverURL, path, pageview:!!CONFIG.waline.pageview,
-    dark:'auto', lang:'zh-CN' });
+  twikoo.init({ envId:CONFIG.twikoo.envId, el, path, lang:'zh-CN' });
 }
 
 /* ============ 分享 / 赞赏 ============ */
