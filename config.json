@@ -84,6 +84,61 @@
       "src": "",
       "emoji": "🌃",
       "caption": "城市夜色"
+    },
+    {
+      "src": "images/gallery/redwall_alone.jpeg",
+      "emoji": "🧱",
+      "caption": "红墙下的独行"
+    },
+    {
+      "src": "images/gallery/forbidden_city_trio.jpeg",
+      "emoji": "🏯",
+      "caption": "故宫与新朋友"
+    },
+    {
+      "src": "images/gallery/subway_bottles.jpeg",
+      "emoji": "🚇",
+      "caption": "早高峰地铁"
+    },
+    {
+      "src": "images/gallery/office_cups.jpeg",
+      "emoji": "☕",
+      "caption": "办公室的茶缸"
+    },
+    {
+      "src": "images/gallery/military_uniform.jpeg",
+      "emoji": "🎖️",
+      "caption": "军装定格"
+    },
+    {
+      "src": "images/gallery/spring_gala.jpeg",
+      "emoji": "🧧",
+      "caption": "春节团拜会"
+    },
+    {
+      "src": "images/gallery/bed_selfie.jpeg",
+      "emoji": "🛏️",
+      "caption": "夏日居家"
+    },
+    {
+      "src": "images/gallery/great_hall_visit.jpeg",
+      "emoji": "🏛️",
+      "caption": "人民大会堂"
+    },
+    {
+      "src": "images/gallery/mountain_trek.jpeg",
+      "emoji": "⛰️",
+      "caption": "山林徒步"
+    },
+    {
+      "src": "images/gallery/military_training_group.jpeg",
+      "emoji": "🪖",
+      "caption": "军训那年"
+    },
+    {
+      "src": "images/gallery/training_room.jpeg",
+      "emoji": "💪",
+      "caption": "训练室日常"
     }
   ],
   "media": [
