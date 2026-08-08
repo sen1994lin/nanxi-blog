@@ -137,7 +137,7 @@ collections:
                   - { label: "→ 跳转到某篇文章", value: "post" }
                   - { label: "→ 打开一个外部网址", value: "url" }
                   - { label: "→ 发邮件给我", value: "mailto" }
-              - { name: target, label: "补充信息（看上面选的是什么再填这里）", widget: string, hint: "选了「跳转到某篇文章」→ 填文章编号（数字）；选了「打开外部网址」→ 填完整网址（https://...）；选了「发邮件」→ 填邮箱地址；其他选项不用填，留空即可。" , required: false }
+              - { name: target, label: "补充信息（看上面选的是什么再填这里）", widget: string, hint: "非常重要！这是文章的唯一编号，决定文件名 posts/这个数字.json。历史文章已占用 1~1031，请勿使用；请填 2000 以上的数字（如 2001、2002…），新增依次 +1，避免覆盖老文章！" , required: false }
               # 二级子菜单
               - name: children
                 label: "二级子菜单（不需要就留空，不会显示）"
