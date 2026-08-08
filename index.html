@@ -816,7 +816,7 @@ loadPosts();
       内容覆盖 posts.json 中同 id 的文章 —— 这样 Decap 后台改/发的文章前台实时可见；
    3) 清单与根目录都不可用时，回退到旧的 posts/1.json ~ posts/60.json 本地文件 */
 async function loadPosts(){
-  const CACHE_KEY='nanxi_posts_cache', CACHE_TTL=10*60*1000;
+  const CACHE_KEY='nanxi_posts_cache', CACHE_TTL=2*60*1000;
   try{
     const c=JSON.parse(localStorage.getItem(CACHE_KEY)||'null');
     if(c && Date.now()-c.t<CACHE_TTL){ POSTS=c.d; renderAll(); return; }
