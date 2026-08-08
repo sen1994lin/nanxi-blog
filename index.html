@@ -810,8 +810,11 @@ renderAll();
 fetch('config.json').then(r=>r.json()).then(j=>{ if(j) CONFIG=Object.assign(CONFIG,j); renderAll(); }).catch(()=>{});
 loadPosts();
 
-/* 本地化加载：优先读 posts.json 全量清单（去掉 60 篇硬上限，展示所有真实文章）；
-   清单不可用时再回退到旧的 posts/1.json ~ posts/60.json 本地文件 */
+/* 本地化加载：
+   1) 优先读 posts.json 全量清单（含全部老文，去掉 60 篇硬上限）；
+   2) 再叠加扫描 posts/ 根目录的「活文章」（近期活跃 + 后台新增/修改），用根目录最新
+      内容覆盖 posts.json 中同 id 的文章 —— 这样 Decap 后台改/发的文章前台实时可见；
+   3) 清单与根目录都不可用时，回退到旧的 posts/1.json ~ posts/60.json 本地文件 */
 async function loadPosts(){
   const CACHE_KEY='nanxi_posts_cache', CACHE_TTL=10*60*1000;
   try{
@@ -821,9 +824,27 @@ async function loadPosts(){
   // 主路径：posts.json 全量清单
   try{
     const j = await fetch('posts.json?t='+Date.now()).then(r=> r.ok? r.json(): null);
-    const arr = (j && Array.isArray(j.posts)) ? j.posts : (Array.isArray(j)? j : null);
-    if(arr && arr.length){
-      arr.sort((a,b)=> (b.date||'').localeCompare(a.date||''));
+    let arr = (j && Array.isArray(j.posts)) ? j.posts : (Array.isArray(j)? j : []);
+    // 叠加扫描 posts/ 根目录活文章（过滤掉 archive 子目录），覆盖同 id
+    try{
+      const listing = await fetch('posts?t='+Date.now()).then(r=> r.ok? r.json(): null);
+      const liveFiles = (Array.isArray(listing)? listing: []).filter(x=> x && x.name && x.name.endsWith('.json') && x.type==='file');
+      if(liveFiles.length){
+        const live = await Promise.all(liveFiles.map(f=>
+          fetch('posts/'+encodeURIComponent(f.name)+'?t='+Date.now()).then(r=> r.ok? r.json(): null).catch(()=>null)
+        ));
+        const liveMap = new Map();
+        for(const p of live){ if(p && p.id!=null) liveMap.set(p.id, p); }
+        if(liveMap.size){
+          const base = new Map();
+          for(const p of arr) base.set(p.id, p);
+          for(const [id,p] of liveMap) base.set(id, p); // 活文章覆盖/新增
+          arr = [...base.values()];
+        }
+      }
+    }catch(e){ /* 扫描根目录失败不影响老文展示 */ }
+    if(arr.length){
+      arr.sort((a,b)=> new Date(b.date||0)-new Date(a.date||0));
       POSTS = arr;
       try{ localStorage.setItem(CACHE_KEY, JSON.stringify({t:Date.now(), d:arr})); }catch(e){}
       renderAll();
