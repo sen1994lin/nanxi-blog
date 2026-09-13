@@ -869,7 +869,7 @@ async function loadPosts(){
     const c=JSON.parse(localStorage.getItem(CACHE_KEY)||'null');
     if(c && Date.now()-c.t<CACHE_TTL){ POSTS=c.d; renderAll(); return; }
   }catch(e){}
-  const MAX=60;
+  const MAX=113;
   try{
     const tasks=[];
     for(let i=1;i<=MAX;i++){
